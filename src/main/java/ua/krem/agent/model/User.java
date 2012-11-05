@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@SuppressWarnings("serial")
 public class User implements Serializable{
 	private Long id;
 	
