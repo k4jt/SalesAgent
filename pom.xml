@@ -99,6 +99,6 @@
   
   
   <build>
-    <finalName>agent</finalName>
+    <finalName>SalesAgent</finalName>
   </build>
 </project>

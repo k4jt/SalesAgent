@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,15 +21,18 @@ public class UserDAO {
 
 	public User getUser(String name){
 		String sql = "select * from sa_user where login = ?";
-		Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
 		User user = new User();
-		if(map != null){
-			user.setId(Long.valueOf((Integer)map.get("id")));
-			user.setLogin((String)map.get("login"));
-			user.setPass((String)map.get("pass"));
+		try{
+			Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
+			if(map != null){
+				user.setId(Long.valueOf((Integer)map.get("id")));
+				user.setLogin((String)map.get("login"));
+				user.setPass((String)map.get("pass"));
+			}
+		}catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
 		}
 		
-		System.out.println(user.getLogin() + " : " + user.getPass());
 		
 		return user;
 	}
