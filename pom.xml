@@ -5,7 +5,7 @@
   <artifactId>agent</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Sales agent</name>
+  <name>agent</name>
 
 	<properties>
 		<spring-version>3.0.5.RELEASE</spring-version>

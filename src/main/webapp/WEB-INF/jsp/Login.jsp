@@ -34,7 +34,7 @@
 		</div>
 	</c:if>
 	
-	<sf:form name='f' action="<c:url value='j_spring_security_check' />"
+	<sf:form name='f' action="<c:url value='/j_spring_security_check' />"
 		method='POST'>
 		<fieldset>
 			<table cellspacing="0">

@@ -7,6 +7,7 @@
 	http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
  
 	<http auto-config="true">
+		<intercept-url pattern="/j_spring_security_check" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/cabinet*" access="ROLE_USER" />
 		<form-login login-page="/login" default-target-url="/cabinet"
 			authentication-failure-url="/loginfailed" />
