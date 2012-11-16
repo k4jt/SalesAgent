@@ -41,6 +41,7 @@ public class LoginController {
 			model.addObject("invalidUser", "Invalid user name");
 		}
 		
+		model.addObject("user", user);
 		return model;
 	}
 	

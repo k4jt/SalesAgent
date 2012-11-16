@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-@RequestMapping({"/", "/home"})
+@RequestMapping({"/", "/home", "/documents", "/synchronisation", "/reports"})
 public class HomeController {
 
 	@RequestMapping(method = RequestMethod.GET)
