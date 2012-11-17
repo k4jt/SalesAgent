@@ -11,7 +11,17 @@
 <title>Cabinet</title>
 <style type="text/css">
 	.menu_button{
-		border-radius: 5px;
+		border-radius: 10px;
+		background-color:#666666;
+		color:white;
+		margin:0.3%;
+		padding:3% 0%;
+		text-align:center;
+		font-size:xx-large;
+	}
+	.menu_button a{
+		color: white;
+		text-decoration:none;
 	}
 </style>
 
