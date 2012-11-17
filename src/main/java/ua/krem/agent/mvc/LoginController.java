@@ -34,7 +34,7 @@ public class LoginController {
 	public ModelAndView loginning(@ModelAttribute("atribute") LoginData loginData){
 		ModelAndView model = null;
 		User user = service.getUser(loginData.getUsername());
-		if(user.getPass().equals(loginData.getPassword())){
+		if(user.getPass().equals(loginData.getPassword()) && user.getPass() != null && !user.getPass().isEmpty()){
 			model = new ModelAndView("cabinet");
 		}else{
 			model = new ModelAndView("login");
