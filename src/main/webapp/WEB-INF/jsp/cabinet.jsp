@@ -9,6 +9,33 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Cabinet</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $( document ).ready( function() {
+            var $body = $('body'); //Cache this for performance
+
+            var setBodyScale = function() {
+                var scaleFactor = 0.55,
+                    scaleSource = $(window).height(),
+                    maxScale = 600,
+                    minScale = 10;
+
+                var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
+
+                if (fontSize > maxScale) fontSize = maxScale;
+                if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
+
+                $('body').css('font-size', fontSize + '%');
+            }
+
+            $(window).resize(function(){
+                setBodyScale();
+            });
+
+            //Fire it when the page first loads:
+            setBodyScale();
+        });
+    </script>
 <style type="text/css">
 	.menu_button{
 		border-radius: 10px;
@@ -17,7 +44,6 @@
 		margin:0.3%;
 		padding:3% 0%;
 		text-align:center;
-		font-size:xx-large;
 	}
 	.menu_button a{
 		color: white;
