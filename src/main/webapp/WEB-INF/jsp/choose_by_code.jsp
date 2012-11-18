@@ -121,7 +121,6 @@
 		<a href="#" id="opn"><input type="text" class="box" name="inputCode" id="code" readonly="readonly" size="10" maxlength="30"/></a>
 		<input type="submit" class="okbtn" value="OK" />
 	</center>
-    <p><a href="#" id="opn"><input type="text" name="inputCode" id="code" readonly="readonly" /></a> 
   </div>
   
   <div class="blockbkg" id="bkg" style="visibility: hidden;">
