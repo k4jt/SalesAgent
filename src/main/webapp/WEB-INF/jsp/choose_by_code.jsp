@@ -83,9 +83,7 @@
         $("#bkg").fadeIn(500, "linear", function () { $("#dlg").show(800, "swing"); });
       });    
 	
-	
-	
-	var $body = $('body'); //Cache this for performance
+    var $body = $('body'); //Cache this for performance
 
     var setBodyScale = function() {
         var scaleFactor = 0.55,
@@ -107,6 +105,7 @@
 
     //Fire it when the page first loads:
     setBodyScale();
+
 	
     });
   </script>
@@ -164,7 +163,6 @@
       
     </div>
   </div>
-
 
 </body>
 </html>

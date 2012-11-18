@@ -12,7 +12,6 @@ public class MainController {
 		return "tasks_with_tp";
 	}
 
-	
 	@RequestMapping(value="/choose_by_code", method = RequestMethod.GET)
 	public String chooseByCode(){
 		return "choose_by_code";
