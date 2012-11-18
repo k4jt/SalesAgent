@@ -5,7 +5,7 @@
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Работа с ТТ</title>
+<title>Выбор ТТ по коду</title>
 
  <style>
     .blockbkg {
@@ -46,6 +46,20 @@
 		width: 100%;
 		height: 100%;
 		margin: 5% 0;
+		font-size: larger;
+	}
+	
+	.box{
+		width: 100%;
+		font-size: larger;
+	}
+	
+	.box:hover{
+		border-color: red;
+	}
+	
+	.okbtn{
+		width: 100%;
 		font-size: larger;
 	}
   </style>
@@ -103,6 +117,10 @@
 
 <body>
   <div class="normal">
+  <center>
+		<a href="#" id="opn"><input type="text" class="box" name="inputCode" id="code" readonly="readonly" size="10" maxlength="30"/></a>
+		<input type="submit" class="okbtn" value="OK" />
+	</center>
     <p><a href="#" id="opn"><input type="text" name="inputCode" id="code" readonly="readonly" /></a> 
   </div>
   

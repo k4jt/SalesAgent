@@ -8,8 +8,47 @@
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Login form</title>
+<title>Авторизация</title>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<script type="text/javascript" charset="utf-8">
+
+$( document ).ready( function() {
+    var $body = $('body'); //Cache this for performance
+
+    var setBodyScale = function() {
+        var scaleFactor = 0.55,
+            scaleSource = $(window).height(),
+            maxScale = 600,
+            minScale = 10;
+
+        var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
+
+        if (fontSize > maxScale) fontSize = maxScale;
+        if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
+
+        $('body').css('font-size', fontSize + '%');
+    }
+
+    $(window).resize(function(){
+        setBodyScale();
+    });
+
+    //Fire it when the page first loads:
+    setBodyScale();
+});
+</script>
+
+<style type = "text/css" > 
+.justtext{
+	width: 100%;	
+}
+.selement{
+	width: 100%;	
+	font-size: xx-large;
+}
+</style>
 </head>
+
 <body>
 	
 	
@@ -21,19 +60,13 @@
 	
 	
 	<form:form methodParam="POST" modelAttribute="atribute" action="login" method='POST'>
-		<table cellspacing="0">
-			<tr>
-				<th>Login:</th>
-				<td><input type='text' name='username' /></td>
-			</tr>
-			<tr>
-				<th>Password:</th>
-				<td><input type='password' name='password' /></td>
-			</tr>
-			<tr>
-				<td colspan="2"><input name="submit" type="submit"	value="submit" /></td>
-			</tr>
-		</table>
+		<center>
+				<div class="justtext">Login:</div>
+				<input type='text' class="selement" name='username' />
+				<div class="justtext">Password:</div>
+				<input type='password' class="selement" name='password' />
+				<input type="submit" class="selement" value="OK">
+		</center>
 	</form:form>
 	
 	

@@ -38,7 +38,7 @@ public class LoginController {
 			model = new ModelAndView("cabinet");
 		}else{
 			model = new ModelAndView("login");
-			model.addObject("invalidUser", "Invalid user name");
+			model.addObject("invalidUser", "Invalid login information");
 		}
 		
 		model.addObject("user", user);
