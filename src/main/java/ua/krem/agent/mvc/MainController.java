@@ -11,4 +11,15 @@ public class MainController {
 	public String taskWithTp(){
 		return "tasks_with_tp";
 	}
+
+	@RequestMapping(value="/choose_by_code", method = RequestMethod.GET)
+	public String choose_by_code(){
+		return "calc";
+	}
+	
+	
+	@RequestMapping(value="/calc", method = RequestMethod.GET)
+	public String calc(){
+		return "calc";
+	}
 }
