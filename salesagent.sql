@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50528
 File Encoding         : 65001
 
-Date: 2012-11-23 06:04:12
+Date: 2012-11-24 02:37:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3035,6 +3035,7 @@ CREATE TABLE `doc` (
   `warehouse_id` int(11) NOT NULL,
   `shop_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `doc_type` tinyint(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`doc_id`),
   KEY `R_17` (`warehouse_id`),
   KEY `R_18` (`shop_id`),
@@ -3082,6 +3083,7 @@ CREATE TABLE `product` (
   `brand_id` int(11) NOT NULL,
   `special_offer` int(11) DEFAULT '0',
   PRIMARY KEY (`prod_id`),
+  UNIQUE KEY `code` (`code`),
   KEY `R_5` (`group_id`),
   KEY `R_8` (`sub_group_id`,`group_id`),
   KEY `R_10` (`brand_id`),
@@ -3125,7 +3127,8 @@ CREATE TABLE `product_group` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `code` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`group_id`)
+  PRIMARY KEY (`group_id`),
+  UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -3153,6 +3156,7 @@ CREATE TABLE `product_sub_group` (
   `code` varchar(50) DEFAULT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY (`sub_group_id`,`group_id`),
+  UNIQUE KEY `code` (`code`),
   KEY `R_6` (`group_id`),
   CONSTRAINT `product_sub_group_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `product_group` (`group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
@@ -3185,13 +3189,14 @@ CREATE TABLE `sa_user` (
   `surname` varchar(20) DEFAULT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `code` varchar(20) NOT NULL DEFAULT 'NULL',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1151 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sa_user
 -- ----------------------------
-INSERT INTO `sa_user` VALUES ('1', 'admin', 'root', null, 'QWERTY', '1', '07770');
+INSERT INTO `sa_user` VALUES ('1', 'admin', 'root', 'ADMIN', 'QWERTY', '1', '07770');
 INSERT INTO `sa_user` VALUES ('768', 'Щерба', '212', 'Артем', 'Щерба', '1', '212');
 INSERT INTO `sa_user` VALUES ('769', 'Падалка', '213', 'Артем', 'Падалка', '1', '213');
 INSERT INTO `sa_user` VALUES ('770', 'Глухов', '214', 'Геннадий', 'Глухов', '1', '214');
@@ -3602,9 +3607,10 @@ CREATE TABLE `shop` (
   `address` varchar(150) DEFAULT NULL,
   `shop_cagent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`shop_id`),
+  UNIQUE KEY `code` (`code`),
   KEY `R_30` (`shop_cagent_id`),
   CONSTRAINT `shop_ibfk_1` FOREIGN KEY (`shop_cagent_id`) REFERENCES `counteragent` (`counteragent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6671 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6673 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shop
@@ -4265,7 +4271,6 @@ INSERT INTO `shop` VALUES ('3988', '669', 'Пусто', null, null);
 INSERT INTO `shop` VALUES ('3989', '671', 'Галя Алекс', null, '3976');
 INSERT INTO `shop` VALUES ('3990', '672', 'Перекресток', 'просп. 50 лет Октября 32/10', '3977');
 INSERT INTO `shop` VALUES ('3991', '673', 'М-н Фан', 'ул.Маяковского', '3978');
-INSERT INTO `shop` VALUES ('3992', '673', 'М-н \"Фан\"', 'ул. Маяковского,', '3978');
 INSERT INTO `shop` VALUES ('3993', '674', 'Анна', 'Водок', '3980');
 INSERT INTO `shop` VALUES ('3994', '675', 'Буфет Больницы № 3', null, null);
 INSERT INTO `shop` VALUES ('3995', '676', 'Мозолева', 'ул.Гвардейская,11', '3982');
@@ -6953,7 +6958,8 @@ CREATE TABLE `warehouse` (
   `warehouse_id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`warehouse_id`)
+  PRIMARY KEY (`warehouse_id`),
+  UNIQUE KEY `code` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
