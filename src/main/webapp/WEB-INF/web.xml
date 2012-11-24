@@ -17,6 +17,15 @@
   	<url-pattern>/</url-pattern>
   </servlet-mapping>
   
+  <!-- servlet>
+  	<servlet-name>testAjax</servlet-name>
+  	<servlet-class>ua.krem.agent.mvc.TestAjax</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>testAjax</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping-->
+  
   
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

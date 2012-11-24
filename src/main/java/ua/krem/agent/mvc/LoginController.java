@@ -1,6 +1,7 @@
 package ua.krem.agent.mvc;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,14 +32,16 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView loginning(@ModelAttribute("atribute") LoginData loginData){
+	public ModelAndView loginning(@ModelAttribute("atribute") LoginData loginData, HttpSession session){
 		ModelAndView model = null;
 		User user = service.getUser(loginData.getUsername());
 		if(user.getPass().equals(loginData.getPassword()) && user.getPass() != null && !user.getPass().isEmpty()){
 			model = new ModelAndView("cabinet");
+			session.setAttribute("user", user);
 		}else{
 			model = new ModelAndView("login");
-			model.addObject("invalidUser", "Invalid login information");
+			model.addObject("invalidUser", "Неверный логин или пароль");
+			session.removeAttribute("user");
 		}
 		
 		model.addObject("user", user);

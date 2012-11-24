@@ -45,6 +45,7 @@ public class MainController {
 		}else{
 			model = new ModelAndView("choose_by_code");
 			model.addObject("errorMsg", "Торговая точка не найдена!");
+			session.removeAttribute("shop");
 		}
 		return model;
 	}
@@ -56,12 +57,23 @@ public class MainController {
 
 	@RequestMapping(value="/realization", method = RequestMethod.GET)
 	public String realization(HttpSession session){
-		Shop shop = (Shop)session.getAttribute("shop");   
+		Shop shop = (Shop)session.getAttribute("shop");
+		System.out.println("getted shop: " + shop);
 		return "realization";
 	}
 
 	@RequestMapping(value="/return_back", method = RequestMethod.GET)
 	public String returnBack(){
 		return "return_back";
+	}
+
+	@RequestMapping(value="/data", method = RequestMethod.GET)
+	public String data(){
+		return "data";
+	}
+
+	@RequestMapping(value="/test", method = RequestMethod.GET)
+	public String test(){
+		return "test";
 	}
 }
