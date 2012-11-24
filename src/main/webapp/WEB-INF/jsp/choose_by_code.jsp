@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -6,64 +8,6 @@
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Выбор ТТ по коду</title>
-
- <style>
-    .blockbkg {
-      background-color: black;
-      opacity: 90%;
-      filter:alpha(opacity=90);
-      background-color: rgba(0,0,0,0.90);
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      float: absolute;
-      position: fixed;
-      top: 0;
-      left: 0;
-      color: white;
-    }
-	.cont {
-		background-color: white;
-		color: black;
-		border: 2px solid gray;
-		padding: 1%;
-		top: 5%;
-		width: 100%;
-		height: 100%;
-		border-radius: 10px;
-	}
-	
-    .closebtn {
-      
-    }
-    .closebtn:hover {
-      cursor: pointer;
-    }
-    .normal {
-    }
-	
-	.calc_but{
-		width: 100%;
-		height: 100%;
-		margin: 5% 0;
-		font-size: larger;
-	}
-	
-	.box{
-		width: 100%;
-		font-size: larger;
-	}
-	
-	.box:hover{
-		border-color: red;
-	}
-	
-	.okbtn{
-		width: 100%;
-		font-size: larger;
-	}
-  </style>
-
   <script>
     $(document).ready(function () {
       $("#closebtn").click(function () {
@@ -115,10 +59,18 @@
 </head>
 
 <body>
+	<c:if test="${errorMsg != null}">
+		<div class="errorblock">
+			<c:out value="${errorMsg}"/>
+		</div>
+	</c:if>
+
   <div class="normal">
   <center>
-		<a href="#" id="opn"><input type="text" class="box" name="inputCode" id="code" readonly="readonly" size="10" maxlength="30"/></a>
-		<input type="submit" class="okbtn" value="OK" />
+  		<form:form methodParam="POST" modelAttribute="atribute" action="choose_by_code" method="POST">
+			<a href="#" id="opn"><input type="text" class="box" name="code" id="code" readonly="readonly" size="10" maxlength="30"/></a>
+			<input type="submit" class="okbtn" value="OK" />
+		</form:form>
 	</center>
   </div>
   
@@ -126,7 +78,7 @@
     <div class="cont" id="dlg" style="visibility: hidden;">
       	
       
-    <form name="Calc">  
+<form name="Calc">  
 <TABLE width="100%" style="padding: 2% 4%;">
 <TR>
 <TD colspan="3">

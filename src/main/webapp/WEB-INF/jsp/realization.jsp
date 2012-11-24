@@ -7,9 +7,9 @@
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Авторизация</title>
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Выбор типа накладной</title>
 <script type="text/javascript" charset="utf-8">
 
 $( document ).ready( function() {
@@ -38,30 +38,33 @@ $( document ).ready( function() {
 });
 </script>
 
+<style>	
+.line{
 
+}
+
+.head_line{
+
+}
+ </style>
+
+  
+  
+  
+  
 </head>
 
 <body>
-	
-	
-	<c:if test="${invalidUser != null}">
-		<div class="errorblock">
-			<c:out value="${invalidUser}"/>
-		</div>
-	</c:if>
-	
-	
-	<form:form methodParam="POST" modelAttribute="atribute" action="login" method='POST'>
-		<center>
-				<div class="justtext">Login:</div>
-				<input type='text' class="selement" name='username' />
-				<div class="justtext">Password:</div>
-				<input type='password' class="selement" name='password' />
-				<input type="submit" class="selement" value="OK">
-		</center>
-	</form:form>
-	
-	
-	
+ <c:if test="${shop != null}">
+ 	<div class="line">
+ 		[Название точки]:<c:out value="${shop.name}"/>&nbsp;
+ 		[Адрес]:<c:out value="${shop.address}"/>&nbsp;
+ 		[Код]:<c:out value="${shop.code}"/>&nbsp;
+ 	</div>
+ </c:if>
+ 
+ 		<div class="head_line">Выбор типа документа</div>
+ 		<a href="realization"><div class="menu_button">Реализация</div></a>
+ 		<a href="return_back"><div class="menu_button">Возврат</div></a>
 </body>
 </html>
