@@ -44,7 +44,7 @@ public class MainController {
 			session.setAttribute("shop", shop);
 		}else{
 			model = new ModelAndView("choose_by_code");
-			model.addObject("errorMsg", "Такой торговой точки нет в базе!");
+			model.addObject("errorMsg", "РўРѕСЂРіРѕРІР°СЏ С‚РѕС‡РєР° РЅРµ РЅР°Р№РґРµРЅР°!");
 		}
 		return model;
 	}

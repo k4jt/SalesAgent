@@ -40,11 +40,11 @@ $( document ).ready( function() {
 
 <style>	
 .line{
-
+	font-size: xx-large;
 }
 
 .head_line{
-
+	font-size: xx-large;
 }
  </style>
 
@@ -63,7 +63,7 @@ $( document ).ready( function() {
  	</div>
  </c:if>
  
- 		<div class="head_line">Выбор типа документа</div>
+ 		<!-- div class="head_line">Выбор типа документа</div -->
  		<a href="realization"><div class="menu_button">Реализация</div></a>
  		<a href="return_back"><div class="menu_button">Возврат</div></a>
 </body>
