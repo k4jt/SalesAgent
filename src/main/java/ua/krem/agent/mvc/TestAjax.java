@@ -1,36 +1,40 @@
 package ua.krem.agent.mvc;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
-@RequestMapping(value="/testAjax")
 public class TestAjax{
 
-	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody String doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		StringBuilder out = new StringBuilder();
+	/*@RequestMapping(value = "/time", method = RequestMethod.GET)
+	  public @ResponseBody String getTime(@RequestParam String name) {
+	    String result = "Time for " + name + " is " + new Date().toString();
+	    return result;
+	  }*/
 
+	
+	@RequestMapping(value="/tree", method=RequestMethod.GET)
+	public @ResponseBody String doGet(@RequestParam String id){
+		StringBuilder out = new StringBuilder();
 	    	int randNodCount = 5;
+	    	int curId;
+	    	try{
+	    		curId = Integer.parseInt(id); 
+	    	}catch(NumberFormatException e){
+	    		e.printStackTrace();
+	    		curId = 0;
+	    	}
+	    	
 	    	for (int i = 0; i < randNodCount; i++) {
-	    			out.append("<li class=\"jstree-closed\"><a href=\"#\">Node ");// 1</a></li>");
-	    			out.append("" + i);
+	    			out.append("<li class='jstree-closed' id='");
+	    			out.append(curId + i).append("'><a href='#'>Node ");
+	    			out.append(curId + i);
 	    			out.append("</a></li>");
 			}
 	    	System.out.println(out.toString());
 	    	return out.toString();
 	   }
 
-		@RequestMapping(method = RequestMethod.POST)
-	   public @ResponseBody String doPost(HttpServletRequest request, HttpServletResponse response)
-	               throws IOException, ServletException {
-	      return doGet(request, response);
-	   }
 }

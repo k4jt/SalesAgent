@@ -12,39 +12,80 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/js/_docs/syntax/!style.css"/>
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/js/_docs/!style.css"/>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/_docs/syntax/!script.js"></script>
-</head>
-
+<style>
+	.selected{
+		font-size: larger;
+	}
+</style>
 <script type="text/javascript">
 
-$(function () {
+
+
+ $(function () {
+	
+	var clickedId = 0; 
+	 
+	 /* $('#demo li a').click(function(){
+			$('#demo li').removeClass('selected'); // remove all selected class values
+			$(this).parent().addClass('selected');
+		   alert("id = " + $("#demo li.selected").attr("id"));
+		   clickedId = $("#demo li.selected").attr("id");
+		}); */
+	 
 	$("#demo").jstree({ 
-		"core" : { "initially_open" : [ "root2" ] },
+		"ui" : { "select_limit" : 1 },
+		"core" : { "initially_open" : [ "root" ] },
 		"html_data" : {
-			/* "data" : "<li class='jstree-closed' id='root2'><a href='#'>Root node</a></li>", */
+			"data" : "<li class='jstree-closed' id='root'><a href='#'>Root node</a></li>", 
 			"ajax" : { 
-				"url" : "testAjax.jsp" 
-			}
+				"url" : "tree.html",
+				"data": ({id : $("#demo li a.jstree-clicked").parent().attr("id") ? $("#demo li a.jstree-clicked").parent().attr("id") : 0 })
+				}
+			
 		},
-		"plugins" : [ "themes", "html_data" ]
+		"plugins" : [ "themes", "html_data", "ui"]
+	})
+	.bind("select_node.jstree", function (event, data) {
+		$.jstree._reference("3").open_node("3");
+//		$.jstree._reference(data.rslt.obj.attr("id")).open_node(data.rslt.obj.attr("id"));
+//		$("#demo").jstree("toggle_node", data.rslt.obj.attr("id"));
+		// `data.rslt.obj` is the jquery extended node that was clicked
+		//alert(data.rslt.obj.attr("id"));
+		//clickedId = data.rslt.obj.attr("id");
 	});
 });
 
+ 
+ 
 </script>
 
-<body id="demo_body">
 
 
-<div id="container">
-
-	
-		<div id="demo"  >
-			
-		</div>
+</head>
 
 
+<!-- script>
+function doAjax() {
+    $.ajax({
+      url: 'time.html',
+      data: ({name : "me"}),
+      success: function(data) {
+        $('#time').html(data);
+      }
+    });
+  }
+</script-->
+
+<body>
+		<div id="demo">	</div>
+</body>
+
+<!--body>
+
+<button id="demo" onclick="doAjax()" title="Button">Get the time!</button>
+<div id="time">
 </div>
 
+</body-->
 
-
-</body>
 </html>
