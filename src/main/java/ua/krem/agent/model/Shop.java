@@ -2,6 +2,7 @@ package ua.krem.agent.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Shop implements Serializable{
 	private String name;
 	private String address;

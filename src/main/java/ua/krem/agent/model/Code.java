@@ -2,6 +2,7 @@ package ua.krem.agent.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Code implements Serializable{
 	
 	private String code;
