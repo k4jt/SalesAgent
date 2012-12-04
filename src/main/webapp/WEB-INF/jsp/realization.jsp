@@ -11,7 +11,7 @@
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.jstree.js" ></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Выбор типа накладной</title>
-<script type="text/javascript" charset="utf-8">
+<!-- script type="text/javascript" charset="utf-8">
 
 $( document ).ready( function() {
     var $body = $('body'); //Cache this for performance
@@ -69,9 +69,116 @@ $( document ).ready( function() {
 	    setTimeout(function () { $.jstree._reference("#phtml_1").open_node("#phtml_1"); }, 2500);
 
 });
+</script -->
+
+<script>
+$(document).ready(function () {
+    $("#closebtn").click(function () {
+      $("#dlg").hide('800', "swing", function () { $("#bkg").fadeOut("500"); });
+    });
+    $("#filter").click(function () {
+      if (document.getElementById('bkg').style.visibility == 'hidden') {
+        document.getElementById('bkg').style.visibility = '';
+        $("#bkg").hide();
+      }
+      if (document.getElementById('dlg').style.visibility == 'hidden') {
+        document.getElementById('dlg').style.visibility = '';
+        $("#dlg").hide();
+      }
+      $("#bkg").fadeIn(500, "linear", function () { $("#dlg").show(800, "swing"); });
+    });
+    
+    /* var $body = $('body'); //Cache this for performance
+
+    var setBodyScale = function() {
+        var scaleFactor = 0.55,
+            scaleSource = $(window).height(),
+            maxScale = 600,
+            minScale = 10;
+
+        var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
+
+        if (fontSize > maxScale) fontSize = maxScale;
+        if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
+
+        $('body').css('font-size', fontSize + '%');
+    }
+
+    $(window).resize(function(){
+        setBodyScale();
+    });
+
+    //Fire it when the page first loads:
+    setBodyScale();
+ */
+    
+    
+});
+
 </script>
+<style>
+	.filter_button{
+		background-color: aqua;
+	}
+</style>
 </head>
 <body>
+
+<c:if test="${shop != null}">
+ 	<div class="line">
+ 		[Название точки]:<c:out value="${shop.name}"/>&nbsp;
+ 		[Адрес]:<c:out value="${shop.address}"/>&nbsp;
+ 		[Код]:<c:out value="${shop.code}"/>&nbsp;
+ 		[Тип накладной]:<c:out value="${docType}"/>
+ 	</div>
+ </c:if>
+
+<a href="#" id="filter"><center><div class="filter_button">Фильтр</div></center></a>
+
+<table border="1" width="100%">
+<tr>
+<th>Name</th>
+<!-- th>Group</th>
+<th>Sub Group</th>
+<th>Brand</th>
+<th>Code</th-->
+<th>Amount</th>
+
+</tr>
+<c:forEach var="row" items="${productList}">
+	<tr>
+		<td><c:out value="${row.name}"/></td>
+		<!-- td><c:out value="${row.group}"/></td>
+		<td><c:out value="${row.subgroup}"/></td>
+		<td><c:out value="${row.brand}"/></td>
+		<td><c:out value="${row.code}"/></td-->
+		<td><input type="text" name="amount" /></td>
+	</tr>
+</c:forEach>
+</table>
+
+
+<div class="blockbkg" id="bkg" style="visibility: hidden;">
+    <div class="cont" id="dlg" style="visibility: hidden;">
+    <div class="closebtn" title="Close" id="closebtn" color="red">[закрыть]</div>
+    <form:form methodParam="POST" modelAttribute="filterAtribute" action="realization" method='POST'>
+		<center>
+				<div class="justtext">Name:</div>
+				<input type='text' class="selement" name='prodName' />
+				<div class="justtext">Brand:</div>
+				<select class="selement" name='brand'>
+					<option></option>
+					<c:forEach var="op" items="${brandList}">
+						<option value='<c:out  value="${op.id}" />' ><c:out  value="${op.name}" /></option>
+					</c:forEach>
+				</select>
+				<input type="submit" class="selement" value="OK">
+		</center>
+	</form:form>
+    
+    </div>
+ </div>  
+  
 
 
 

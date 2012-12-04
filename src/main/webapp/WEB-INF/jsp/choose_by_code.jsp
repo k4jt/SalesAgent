@@ -100,7 +100,7 @@
 <TABLE width="100%" style="padding: 2% 4%;">
 <TR>
 <TD colspan="3">
-<INPUT TYPE="text"   NAME="Input" id="calc_output" style="width: 100%; height: 100%; font-size: larger;">
+<INPUT TYPE="text"   NAME="Input" id="calc_output" readonly="readonly" style="width: 100%; height: 100%; font-size: larger;">
 </TD>
 <td><center><div class="closebtn" title="Close" id="closebtn" color="red">ОК</div></center></td>
 </TR>
