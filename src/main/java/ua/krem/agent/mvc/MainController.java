@@ -1,5 +1,7 @@
 package ua.krem.agent.mvc;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ua.krem.agent.model.Code;
@@ -49,7 +53,21 @@ public class MainController {
 		}
 		return model;
 	}
-
+	
+	@RequestMapping(value="/calc", method = RequestMethod.GET)
+	 @ResponseBody public String GetShopName(@RequestParam String code) throws UnsupportedEncodingException{
+		System.out.println("CODE IS: "+code);
+		Shop shop = shopService.getShopByCode(code);
+		System.out.println(shop.toString());
+		String rez;
+		if(shop.getName() != null && !shop.getName().isEmpty()){
+			rez = new String(shop.toString().getBytes("ISO-8859-1"),"UTF-8");
+		}else{
+			rez = new String("Торговая точка не найдена!".getBytes("ISO-8859-1"),"UTF-8");
+			}
+		return rez;
+	}
+	
 	@RequestMapping(value="/choose_doc_type", method = RequestMethod.GET)
 	public String chooseDocType(){
 		return "choose_doc_type";

@@ -11,7 +11,25 @@
   <script>
     $(document).ready(function () {
       $("#closebtn").click(function () {
-        document.getElementById('code').value =  document.getElementById('calc_output').value;
+        //document.getElementById('code').value =  document.getElementById('calc_output').value;
+		$.ajax({
+  		    url: "calc.html",
+      		type: "GET",
+      		data: ({code: document.getElementById('calc_output').value}),
+      		dataType: "text",
+      		contentType: "text/html; charset=iso-8859-1",
+      		
+      		success: function(msg){
+         			alert("succ" + msg);
+         			alert("succ" + encodeURIComponent(msg));
+         			document.getElementById('code').value = msg;
+      			}
+   			}
+  		)
+  		/*$.post('calc.html', {}, function(msg){   
+					alert(msg);
+         			document.getElementById('code').value = msg;                 
+        }, 'text'); */ 
 		document.getElementById('calc_output').value = '';
         $("#dlg").hide('800', "swing", function () { $("#bkg").fadeOut("500"); });
       });
