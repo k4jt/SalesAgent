@@ -8,6 +8,10 @@ public class Code implements Serializable{
 	private String code;
 
 	public String getCode() {
+		if( code.contains("code: ")){
+			code = code.substring(code.indexOf("code: ") + 5).trim();
+		}
+		System.out.println("code: " + code);
 		return code;
 	}
 
