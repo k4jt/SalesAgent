@@ -1,5 +1,7 @@
 package ua.krem.agent.mvc;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -9,18 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Code;
+import ua.krem.agent.model.Filter;
+import ua.krem.agent.model.Product;
 import ua.krem.agent.model.Shop;
+import ua.krem.agent.service.ProductService;
 import ua.krem.agent.service.ShopService;
 
 @Controller
 public class MainController {
 
 	private ShopService shopService;
+	private ProductService productService;
 	
 	@Inject
-	public MainController(ShopService shopService){
+	public MainController(ShopService shopService, ProductService productService){
 		this.shopService = shopService;
+		this.productService = productService;
 	}
 	
 	@RequestMapping(value="/tasks_with_tp", method = RequestMethod.GET)
@@ -55,16 +63,60 @@ public class MainController {
 		return "choose_doc_type";
 	}
 
+	@RequestMapping(value="/realization", method = RequestMethod.POST)
+	public ModelAndView filteredRezult(@ModelAttribute("filterAtribute") Filter filter){
+		ModelAndView model = new ModelAndView("realization");
+		
+		if(filter != null){
+			if(filter.getProdName() != null){
+				System.out.println("filter prod name: " + filter.getProdName());
+			}
+			if(filter.getBrand() != null){
+				System.out.println("filter brand: " + filter.getBrand());
+			}
+		}
+		
+		List<Brand> brandList = productService.getBrands();
+		model.addObject("brandList", brandList);
+		
+		List<Product> list = productService.getProducts(filter);
+		model.addObject("productList", list);
+		
+		return model;
+	}
+	
+	
+	
 	@RequestMapping(value="/realization", method = RequestMethod.GET)
-	public String realization(HttpSession session){
+	public ModelAndView realization(HttpSession session){
+		session.setAttribute("docType", "Реализация");
 		Shop shop = (Shop)session.getAttribute("shop");
 		System.out.println("getted shop: " + shop);
-		return "realization";
+		
+		List<Product> list = productService.getProducts(null);
+		ModelAndView model = new ModelAndView("realization");
+		model.addObject("productList", list);
+		
+		List<Brand> brandList = productService.getBrands();
+		model.addObject("brandList", brandList);
+		
+		return model;
 	}
 
 	@RequestMapping(value="/return_back", method = RequestMethod.GET)
-	public String returnBack(){
-		return "return_back";
+	public ModelAndView returnBack(HttpSession session){
+		session.setAttribute("docType", "Возврат");
+		Shop shop = (Shop)session.getAttribute("shop");
+		System.out.println("getted shop: " + shop);
+		
+		List<Product> list = productService.getProducts(null);
+		ModelAndView model = new ModelAndView("realization");
+		model.addObject("productList", list);
+		
+		List<Brand> brandList = productService.getBrands();
+		model.addObject("brandList", brandList);
+		
+		return model;
 	}
 
 	@RequestMapping(value="/data", method = RequestMethod.GET)
