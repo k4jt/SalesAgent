@@ -1,10 +1,9 @@
 package ua.krem.agent.mvc;
 
-<<<<<<< HEAD
+
 import java.io.UnsupportedEncodingException;
-=======
 import java.util.List;
->>>>>>> 7a5476c3ea7cf0c955ae7e977beaeea5428debe4
+
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;

@@ -1,7 +1,7 @@
 package ua.krem.agent.model;
 
 import java.io.Serializable;
-
+@SuppressWarnings("serial")
 public class Filter implements Serializable{
 	
 	private String prodName;
