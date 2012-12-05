@@ -149,7 +149,7 @@ $(document).ready(function () {
 	</tr>
 	<c:forEach var="row" items="${productList}">
 		<tr>
-			<td><input type="text" name="prodId" value='<c:out value="${row.id}"/>' /></td>
+			<td style="display: none;"><input type="text" name="prodId" value='<c:out value="${row.id}"/>' /></td>
 			<td><c:out value="${row.name}"/></td>
 			<!-- td><c:out value="${row.group}"/></td>
 			<td><c:out value="${row.subgroup}"/></td>
