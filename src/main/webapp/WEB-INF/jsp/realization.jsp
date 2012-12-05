@@ -138,7 +138,7 @@ $(document).ready(function () {
 <form:form methodParam="POST" modelAttribute="atribute" action="procDoc" method='POST'>
 	<table border="1" width="100%">
 	<tr>
-	<th>Id</th>
+	<th style="display: none;">Id</th>
 	<th>Name</th>
 	<!-- th>Group</th>
 	<th>Sub Group</th>
