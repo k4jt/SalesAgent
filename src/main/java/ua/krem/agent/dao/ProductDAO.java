@@ -6,11 +6,13 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import ua.krem.agent.model.Brand;
+import ua.krem.agent.model.Document;
 import ua.krem.agent.model.Filter;
 import ua.krem.agent.model.Product;
 
@@ -25,7 +27,7 @@ public class ProductDAO {
 
 	public List<Product> getProducts(Filter filter){
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT x.name AS PName, x.code PCode, y.name GName, z.name SGName, q.name BName ");
+		sql.append("SELECT x.prod_id id, x.name AS PName, x.code PCode, y.name GName, z.name SGName, q.name BName ");
 		sql.append("FROM product_group y, counteragent q, product x ");
 		sql.append("LEFT OUTER JOIN  product_sub_group z ON x.sub_group_id=z.sub_group_id ");
 		sql.append("WHERE x.group_id= y.group_id And x.brand_id=q.counteragent_id ");
@@ -47,6 +49,7 @@ public class ProductDAO {
 				{
 					Map<String, Object> elem = list.get(i);
 					Product item = new Product();
+					item.setId((Integer) elem.get("id"));
 					item.setName((String) elem.get("PName"));
 					item.setCode((String) elem.get("PCode"));
 					item.setGroup((String) elem.get("GName"));
@@ -81,5 +84,33 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 		return brandList;
+	}
+	
+	public void addDocument(Document doc){
+		String sql = "INSERT INTO doc (date, warehouse_id, shop_id, user_id) VALUES (NOW(), ?, ?, ?)";
+		try{
+			if(jdbcTemplate.update(sql, 1, doc.getShopId(), doc.getUserId()) != 0){
+				
+				sql = "SELECT max(doc_id) id FROM doc";
+				doc.setId((Integer) jdbcTemplate.queryForInt(sql));
+				
+				sql = "INSERT INTO doc_element (amount, doc_id, prod_id) VALUES (?, ?, ?)";
+				for(int i = 0; i < doc.getAmount().length; ++i){
+					if(doc.getAmount()[i] != null && !doc.getAmount()[i].isEmpty()){
+						try{
+							Integer.parseInt(doc.getAmount()[i]);
+							jdbcTemplate.update(sql, doc.getAmount()[i], doc.getId(), doc.getProdId()[i]);
+						}catch(NumberFormatException e){
+							e.printStackTrace();
+						}
+					}
+				}
+				
+			}
+			
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		
 	}
 }

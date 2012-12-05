@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Shop implements Serializable{
+	private Integer id;
 	private String name;
 	private String address;
 	private String code;
@@ -37,6 +38,12 @@ public class Shop implements Serializable{
 	
 	public String toString(){
 		return "Address: " + address + ", name: " + name + ", code: " + code;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }

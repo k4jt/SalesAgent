@@ -4,7 +4,6 @@ package ua.krem.agent.mvc;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -18,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Code;
+import ua.krem.agent.model.Document;
 import ua.krem.agent.model.Filter;
 import ua.krem.agent.model.Product;
 import ua.krem.agent.model.Shop;
+import ua.krem.agent.model.User;
 import ua.krem.agent.service.ProductService;
 import ua.krem.agent.service.ShopService;
 
@@ -46,6 +47,18 @@ public class MainController {
 		return "choose_by_code";
 	}
 
+	@RequestMapping(value="/procDoc", method = RequestMethod.POST)
+	public String procDoc(@ModelAttribute("atribute") Document doc, HttpSession session){
+		Shop shop = (Shop)session.getAttribute("shop");
+		User user = (User)session.getAttribute("user");
+		doc.setUserId(user.getId());
+		doc.setShopId(shop.getId());
+		
+		productService.addDocument(doc);
+		
+		return "cabinet";
+	}
+	
 	@RequestMapping(value="/choose_by_code", method = RequestMethod.POST)
 	public ModelAndView chooseTpByCode(@ModelAttribute("atribute") Code code, HttpSession session){
 		Shop shop = shopService.getShopByCode(code.getCode());

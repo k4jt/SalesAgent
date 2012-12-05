@@ -135,27 +135,34 @@ $(document).ready(function () {
 
 <a href="#" id="filter"><center><div class="filter_button">Фильтр</div></center></a>
 
-<table border="1" width="100%">
-<tr>
-<th>Name</th>
-<!-- th>Group</th>
-<th>Sub Group</th>
-<th>Brand</th>
-<th>Code</th-->
-<th>Amount</th>
-
-</tr>
-<c:forEach var="row" items="${productList}">
+<form:form methodParam="POST" modelAttribute="atribute" action="procDoc" method='POST'>
+	<table border="1" width="100%">
 	<tr>
-		<td><c:out value="${row.name}"/></td>
-		<!-- td><c:out value="${row.group}"/></td>
-		<td><c:out value="${row.subgroup}"/></td>
-		<td><c:out value="${row.brand}"/></td>
-		<td><c:out value="${row.code}"/></td-->
-		<td><input type="text" name="amount" /></td>
+	<th>Id</th>
+	<th>Name</th>
+	<!-- th>Group</th>
+	<th>Sub Group</th>
+	<th>Brand</th>
+	<th>Code</th-->
+	<th>Amount</th>
+	
 	</tr>
-</c:forEach>
-</table>
+	<c:forEach var="row" items="${productList}">
+		<tr>
+			<td><input type="text" name="prodId" value='<c:out value="${row.id}"/>' /></td>
+			<td><c:out value="${row.name}"/></td>
+			<!-- td><c:out value="${row.group}"/></td>
+			<td><c:out value="${row.subgroup}"/></td>
+			<td><c:out value="${row.brand}"/></td>
+			<td><c:out value="${row.code}"/></td-->
+			<td><input type="text" name="amount" /></td>
+		</tr>
+	</c:forEach>
+	</table>
+	<input type="submit" value="submit" />
+</form:form>
+
+
 
 
 <div class="blockbkg" id="bkg" style="visibility: hidden;">

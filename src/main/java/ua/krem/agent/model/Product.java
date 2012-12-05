@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Product implements Serializable{
+	private Integer id;
 	private String name;
 	private String group;
 	private String subgroup;
@@ -51,6 +52,12 @@ public class Product implements Serializable{
 	
 	public String toString(){
 		return "Code: " + code + ", Name: " + name + ", Group: " + group;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }

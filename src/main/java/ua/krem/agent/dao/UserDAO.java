@@ -25,7 +25,7 @@ public class UserDAO {
 		try{
 			Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
 			if(map != null){
-				user.setId(Long.valueOf((Integer)map.get("id")));
+				user.setId((Integer)map.get("id"));
 				user.setLogin((String)map.get("login"));
 				user.setPass((String)map.get("pass"));
 			}

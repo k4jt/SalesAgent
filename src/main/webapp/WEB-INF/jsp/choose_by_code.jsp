@@ -20,9 +20,12 @@
       		contentType: "text/html; charset=iso-8859-1",
       		
       		success: function(msg){
-         			alert("succ" + msg);
-         			alert("succ" + encodeURIComponent(msg));
+         			/* alert("succ" + msg);
+         			alert("succ" + encodeURIComponent(msg)); */
          			document.getElementById('code').value = msg;
+         			if(msg.length() > 26){
+         				$("#errorMsg").addStyle("hideErrBlock");
+         			}
       			}
    			}
   		)
@@ -72,13 +75,17 @@
     });
 </script>
   
-  
+  <style>
+  	.hideErrBlock{
+  		visibility: hidden;
+  	}
+  </style>
   
 </head>
 
 <body>
 	<c:if test="${errorMsg != null}">
-		<div class="errorblock">
+		<div class="errorblock" id="errorMsg">
 			<c:out value="${errorMsg}"/>
 		</div>
 	</c:if>

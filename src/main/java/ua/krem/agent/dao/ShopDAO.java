@@ -20,11 +20,12 @@ public class ShopDAO {
 	}
 
 	public Shop getShopByCode(String code){
-		String sql = "SELECT name, address, code FROM shop WHERE code = ?";
+		String sql = "SELECT shop_id id, name, address, code FROM shop WHERE code = ?";
 		Shop shop = new Shop();
 		try{
 			Map<String, Object> map = jdbcTemplate.queryForMap(sql, code);
 			if(map != null && !map.isEmpty()){
+				shop.setId((Integer)map.get("id"));
 				shop.setName((String)map.get("name"));
 				shop.setAddress((String)map.get("address"));
 				shop.setCode((String)map.get("code"));

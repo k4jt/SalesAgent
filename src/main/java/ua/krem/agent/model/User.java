@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class User implements Serializable{
-	private Long id;
+	private Integer id;
 	
 	private String login;
 	
@@ -31,11 +31,11 @@ public class User implements Serializable{
 		this.pass = pass;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

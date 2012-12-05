@@ -23,7 +23,7 @@ public class LoginController {
 		service = myService;
 	}
 	
-	@RequestMapping(value="/login", method = RequestMethod.GET)
+	@RequestMapping(value={"/login", "/"}, method = RequestMethod.GET)
 	public ModelAndView showLoginPage(){
 		System.out.println("showLoginPage");
 		ModelAndView model = new ModelAndView("login");
