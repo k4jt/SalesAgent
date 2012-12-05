@@ -8,7 +8,7 @@ public class Code implements Serializable{
 	private String code;
 
 	public String getCode() {
-		if( code.contains("code: ")){
+		if(code.indexOf(" ")!=-1){
 			code = code.substring(0, code.indexOf(" ")).trim();
 		}
 		System.out.println("code: " + code);
