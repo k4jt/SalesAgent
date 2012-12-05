@@ -112,6 +112,11 @@ $(document).ready(function () {
     setBodyScale();
  */
     
+ 
+ $("amount").click(function(){
+	$(this).addClass("selected"); 
+ });
+ 
     
 });
 
@@ -127,6 +132,14 @@ $(document).ready(function () {
 		color: white;
 		padding: 1% 0;
 		margin-bottom: 1%;
+	}
+	
+	.selected{
+		background: red;
+		color: red;
+	}
+	.amount{
+		width: 99%;
 	}
 </style>
 </head>
@@ -148,10 +161,6 @@ $(document).ready(function () {
 	<tr>
 	<th style="display: none;">Id</th>
 	<th>Name</th>
-	<!-- th>Group</th>
-	<th>Sub Group</th>
-	<th>Brand</th>
-	<th>Code</th-->
 	<th>Amount</th>
 	
 	</tr>
@@ -159,16 +168,12 @@ $(document).ready(function () {
 		<tr>
 			<td style="display: none;"><input type="text" name="prodId" value='<c:out value="${row.id}"/>' /></td>
 			<td><c:out value="${row.name}"/></td>
-			<!-- td><c:out value="${row.group}"/></td>
-			<td><c:out value="${row.subgroup}"/></td>
-			<td><c:out value="${row.brand}"/></td>
-			<td><c:out value="${row.code}"/></td-->
-			<td><input type="text" name="amount" /></td>
+			<td><input type="text" class="amount" name="amount" readonly="readonly" /></td>
 		</tr>
 	</c:forEach>
 	</table>
 	<input type="submit" class="filter_button" value="Сохранить" />
-	<a href="choose_doc_type"><div class="filter_button">Назад</div></a>
+	<a href="choose_doc_type"><div class="filter_button" style="float: left;">Назад</div></a>
 </form:form>
 
 
