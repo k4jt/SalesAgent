@@ -64,6 +64,7 @@ public class MainController {
 	public ModelAndView chooseTpByCode(@ModelAttribute("atribute") Code code, HttpSession session){
 		Shop shop = shopService.getShopByCode(code.getCode());
 		System.out.println("[shop] " + shop);
+		System.out.println(code.getCode());
 		ModelAndView model;
 		if(shop.getName() != null && !shop.getName().isEmpty()){
 			model = new ModelAndView("choose_doc_type");
