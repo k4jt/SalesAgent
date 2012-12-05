@@ -37,7 +37,7 @@ public class Shop implements Serializable{
 	}
 	
 	public String toString(){
-		return "Address: " + address + ", name: " + name + ", code: " + code;
+		return  code + " " + name + " " + address;
 	}
 	public Integer getId() {
 		return id;

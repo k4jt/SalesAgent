@@ -39,6 +39,6 @@ $( document ).ready( function() {
 
 	<a href="choose_by_code"><div class="menu_button">Выбор по коду</div></a>
 	<a href="choose_from_list"><div class="menu_button">Выбор из списка</div></a>
-
+	<a href="cabinet"><div class="menu_button">Выход в главное меню</div></a>
 </body>
 </html>

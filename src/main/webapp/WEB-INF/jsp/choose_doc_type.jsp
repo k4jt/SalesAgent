@@ -57,9 +57,9 @@ $( document ).ready( function() {
 <body>
  <c:if test="${shop != null}">
  	<div class="line">
- 		[Название точки]:<c:out value="${shop.name}"/>&nbsp;
- 		[Адрес]:<c:out value="${shop.address}"/>&nbsp;
- 		[Код]:<c:out value="${shop.code}"/>&nbsp;
+ 		<c:out value="${shop.code}"/>&nbsp;
+ 		<c:out value="${shop.name}"/>&nbsp;
+ 		<c:out value="${shop.address}"/>&nbsp;
  	</div>
  </c:if>
  

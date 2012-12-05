@@ -126,10 +126,10 @@ $(document).ready(function () {
 
 <c:if test="${shop != null}">
  	<div class="line">
- 		[Название точки]:<c:out value="${shop.name}"/>&nbsp;
- 		[Адрес]:<c:out value="${shop.address}"/>&nbsp;
- 		[Код]:<c:out value="${shop.code}"/>&nbsp;
- 		[Тип накладной]:<c:out value="${docType}"/>
+ 		<c:out value="${shop.code}"/>&nbsp;
+ 		<c:out value="${shop.name}"/>&nbsp;
+ 		<c:out value="${shop.address}"/>&nbsp;
+ 		<br>[Тип накладной]:<c:out value="${docType}"/>
  	</div>
  </c:if>
 
