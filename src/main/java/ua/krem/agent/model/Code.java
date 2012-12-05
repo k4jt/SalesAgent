@@ -9,7 +9,7 @@ public class Code implements Serializable{
 
 	public String getCode() {
 		if( code.contains("code: ")){
-			code = code.substring(0,code.indexOf(' ')).trim();
+			code = code.substring(0, code.indexOf(" ")).trim();
 		}
 		System.out.println("code: " + code);
 		return code;
