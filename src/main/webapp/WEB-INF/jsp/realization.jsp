@@ -118,7 +118,15 @@ $(document).ready(function () {
 </script>
 <style>
 	.filter_button{
-		background-color: aqua;
+		float: right;
+		width: 31%;
+		font-size: larger;
+		text-align: center;
+		border-radius: 10px;
+		background-color: #666;
+		color: white;
+		padding: 1% 0;
+		margin-bottom: 1%;
 	}
 </style>
 </head>
@@ -129,7 +137,7 @@ $(document).ready(function () {
  		<c:out value="${shop.code}"/>&nbsp;
  		<c:out value="${shop.name}"/>&nbsp;
  		<c:out value="${shop.address}"/>&nbsp;
- 		<br>[Тип накладной]:<c:out value="${docType}"/>
+ 		<br>[Тип накладной]: <c:out value="${docType}"/>
  	</div>
  </c:if>
 
@@ -159,9 +167,9 @@ $(document).ready(function () {
 		</tr>
 	</c:forEach>
 	</table>
-	<input type="submit" value="submit" />
+	<input type="submit" class="filter_button" value="Сохранить" />
+	<a href="choose_doc_type"><div class="filter_button">Назад</div></a>
 </form:form>
-
 
 
 
