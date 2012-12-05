@@ -31,6 +31,13 @@ public class LoginController {
 		return model;
 	}
 	
+	@RequestMapping(value={"/cabinet"}, method = RequestMethod.GET)
+	public String cabinet()
+	{
+		return "cabinet";
+		
+	}
+	
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginning(@ModelAttribute("atribute") LoginData loginData, HttpSession session){
 		ModelAndView model = null;

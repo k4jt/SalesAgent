@@ -59,6 +59,7 @@ public class MainController {
 		return "cabinet";
 	}
 	
+	
 	@RequestMapping(value="/choose_by_code", method = RequestMethod.POST)
 	public ModelAndView chooseTpByCode(@ModelAttribute("atribute") Code code, HttpSession session){
 		Shop shop = shopService.getShopByCode(code.getCode());
