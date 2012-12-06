@@ -8,74 +8,18 @@
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
-<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.jstree.js" ></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Выбор типа накладной</title>
-<!-- script type="text/javascript" charset="utf-8">
-
-$( document ).ready( function() {
-    var $body = $('body'); //Cache this for performance
-
-    var setBodyScale = function() {
-        var scaleFactor = 0.55,
-            scaleSource = $(window).height(),
-            maxScale = 600,
-            minScale = 10;
-
-        var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
-
-        if (fontSize > maxScale) fontSize = maxScale;
-        if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
-
-        $('body').css('font-size', fontSize + '%');
-    }
-
-    $(window).resize(function(){
-        setBodyScale();
-    });
-
-    //Fire it when the page first loads:
-    setBodyScale();
-
-
-	    $("#demo1")
-	        .jstree({
-	            // the `plugins` array allows you to configure the active plugins on this instance
-	            "plugins" : ["themes","html_data","ui","crrm","hotkeys"],
-	            // each plugin you have included can have its own config object
-	            "core" : { "initially_open" : [ "phtml_1" ] }
-	            // it makes sense to configure a plugin only if overriding the defaults
-	        })
-	        // EVENTS
-	        // each instance triggers its own events - to process those listen on the container
-	        // all events are in the `.jstree` namespace
-	        // so listen for `function_name`.`jstree` - you can function names from the docs
-	        .bind("loaded.jstree", function (event, data) {
-	            // you get two params - event & data - check the core docs for a detailed description
-	        });
-	    // INSTANCES
-	    // 1) you can call most functions just by selecting the container and calling `.jstree("func",`
-	    setTimeout(function () { $("#demo1").jstree("set_focus"); }, 500);
-	    // with the methods below you can call even private functions (prefixed with `_`)
-	    // 2) you can get the focused instance using `$.jstree._focused()`.
-	    setTimeout(function () { $.jstree._focused().select_node("#phtml_1"); }, 1000);
-	    // 3) you can use $.jstree._reference - just pass the container, a node inside it, or a selector
-	    setTimeout(function () { $.jstree._reference("#phtml_1").close_node("#phtml_1"); }, 1500);
-	    // 4) when you are working with an event you can use a shortcut
-	    $("#demo1").bind("open_node.jstree", function (e, data) {
-	        // data.inst is the instance which triggered this event
-	        data.inst.select_node("#phtml_2", true);
-	    });
-	    setTimeout(function () { $.jstree._reference("#phtml_1").open_node("#phtml_1"); }, 2500);
-
-});
-</script -->
 
 <script>
 $(document).ready(function () {
+	
+	
     $("#closebtn").click(function () {
       $("#dlg").hide('800', "swing", function () { $("#bkg").fadeOut("500"); });
     });
+    
+    
     $("#filter").click(function () {
       if (document.getElementById('bkg').style.visibility == 'hidden') {
         document.getElementById('bkg').style.visibility = '';
@@ -87,35 +31,33 @@ $(document).ready(function () {
       }
       $("#bkg").fadeIn(500, "linear", function () { $("#dlg").show(800, "swing"); });
     });
-    
-    /* var $body = $('body'); //Cache this for performance
-
-    var setBodyScale = function() {
-        var scaleFactor = 0.55,
-            scaleSource = $(window).height(),
-            maxScale = 600,
-            minScale = 10;
-
-        var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
-
-        if (fontSize > maxScale) fontSize = maxScale;
-        if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
-
-        $('body').css('font-size', fontSize + '%');
-    }
-
-    $(window).resize(function(){
-        setBodyScale();
-    });
-
-    //Fire it when the page first loads:
-    setBodyScale();
- */
-    
+        
  
- $("amount").click(function(){
-	$(this).addClass("selected"); 
- });
+	 $(".test").click(function(){
+		$(".test").children(".amount").removeClass("selected");
+		$(this).children(".amount").addClass("selected");
+	    if (document.getElementById('bkg_calc').style.visibility == 'hidden') {
+	        document.getElementById('bkg_calc').style.visibility = '';
+	        $("#bkg_calc").hide();
+	      }
+	      if (document.getElementById('dlg_calc').style.visibility == 'hidden') {
+	        document.getElementById('dlg_calc').style.visibility = '';
+	        $("#dlg_calc").hide();
+	      }
+	      $("#bkg_calc").fadeIn(500, "linear", function () { $("#dlg_calc").show(800, "swing"); });
+	 });
+ 
+ 
+     $("#closebtn_calc").click(function () {
+    	 var text = $("#calc_output").val();
+    	 $(".test").children(".selected").val(text);
+		document.getElementById('calc_output').value = '';
+       $("#dlg_calc").hide('800', "swing", function () { $("#bkg_calc").fadeOut("500"); });
+     });
+ 
+ 
+ 
+ 
  
     
 });
@@ -134,12 +76,15 @@ $(document).ready(function () {
 		margin-bottom: 1%;
 	}
 	
-	.selected{
-		background: red;
-		color: red;
-	}
+	.selected{}
 	.amount{
 		width: 99%;
+	}
+	
+	.test{}
+	
+	.line{
+		float: left;
 	}
 </style>
 </head>
@@ -168,7 +113,7 @@ $(document).ready(function () {
 		<tr>
 			<td style="display: none;"><input type="text" name="prodId" value='<c:out value="${row.id}"/>' /></td>
 			<td><c:out value="${row.name}"/></td>
-			<td><input type="text" class="amount" name="amount" readonly="readonly" /></td>
+			<td><a href="#" class="test"><input type="text" class="amount" name="amount" readonly="readonly" /></a></td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -199,6 +144,51 @@ $(document).ready(function () {
     </div>
  </div>  
   
+
+
+
+
+  <div class="blockbkg" id="bkg_calc" style="visibility: hidden;">
+    <div class="cont" id="dlg_calc" style="visibility: hidden;">
+      	
+      
+<form name="Calc">  
+<TABLE width="100%" style="padding: 2% 4%;">
+<TR>
+<TD colspan="3">
+<INPUT TYPE="text"   NAME="Input" id="calc_output" readonly="readonly" style="width: 100%; height: 100%; font-size: larger;">
+</TD>
+<td><center><div class="closebtn" title="Close" id="closebtn_calc" color="red">ОК</div></center></td>
+</TR>
+<TR>
+<TD><INPUT class="calc_but" TYPE="button" NAME="one"   VALUE="  1  " OnClick="Calc.Input.value += '1'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="two"   VALUE="  2  " OnCLick="Calc.Input.value += '2'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="three" VALUE="  3  " OnClick="Calc.Input.value += '3'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="plus"  VALUE="  +  " OnClick="Calc.Input.value += ' + '"></td>
+</tr>
+<tr>
+<td><INPUT class="calc_but" TYPE="button" NAME="four"  VALUE="  4  " OnClick="Calc.Input.value += '4'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="five"  VALUE="  5  " OnCLick="Calc.Input.value += '5'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="six"   VALUE="  6  " OnClick="Calc.Input.value += '6'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="minus" VALUE="  -  " OnClick="Calc.Input.value += ' - '"></td>
+</tr>
+<tr>
+<td><INPUT class="calc_but" TYPE="button" NAME="seven" VALUE="  7  " OnClick="Calc.Input.value += '7'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="eight" VALUE="  8  " OnCLick="Calc.Input.value += '8'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="nine"  VALUE="  9  " OnClick="Calc.Input.value += '9'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="times" VALUE="  x  " OnClick="Calc.Input.value += ' * '"></td>
+</tr>
+<tr>
+<td><INPUT class="calc_but" TYPE="button" NAME="clear" VALUE="  c  " OnClick="Calc.Input.value = ''"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="zero"  VALUE="  0  " OnClick="Calc.Input.value += '0'"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="DoIt"  VALUE="  =  " OnClick="Calc.Input.value = eval(Calc.Input.value)"></td>
+<td><INPUT class="calc_but" TYPE="button" NAME="div"   VALUE="  /  " OnClick="Calc.Input.value += ' / '"></td>
+</tr>
+</TABLE></form>
+      
+      
+    </div>
+  </div>
 
 
 
