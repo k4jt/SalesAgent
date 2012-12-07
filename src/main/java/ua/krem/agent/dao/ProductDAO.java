@@ -58,7 +58,7 @@ public class ProductDAO {
 		try{
 			List <Map<String, Object>> list = jdbcTemplate.queryForList(sql.toString());
 			if(list != null && !list.isEmpty()){
-				for(int i=0; i<list.size(); i++)
+	qwerty: 	for(int i=0; i<list.size(); i++)
 				{
 					Map<String, Object> elem = list.get(i);
 					Product item = new Product();
@@ -71,9 +71,10 @@ public class ProductDAO {
 					if(itemList != null && !itemList.isEmpty()){
 						for(int j = 0; j < itemList.size(); ++j){
 							if(itemList.get(j).id == item.getId()){
-								item.setAmount(itemList.get(j).amount);
-								System.out.println("remove " + itemList.get(j).id);
-								itemList.remove(j);
+								continue qwerty;
+//								item.setAmount(itemList.get(j).amount);
+//								System.out.println("remove " + itemList.get(j).id);
+//								itemList.remove(j);
 							}
 						}
 					}
