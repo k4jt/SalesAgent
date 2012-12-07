@@ -61,7 +61,7 @@ public class MainController {
 		
 		productService.addDocument(doc);
 		
-		return "cabinet";
+		return "choose_doc_type";
 	}
 	
 	

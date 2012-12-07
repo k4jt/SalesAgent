@@ -58,7 +58,7 @@
 .calc_but{
 	width: 100%;
 	height: 100%;
-	margin: 5% 0;
+	margin: 4.5% 0;
 	font-size: larger;
 }
 
@@ -80,6 +80,6 @@
 	width: 100%;	
 }
 .selement{
-	width: 100%;	
-	font-size: xx-large;
+	width: 95%;	
+	font-size: larger;
 }

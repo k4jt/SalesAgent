@@ -64,7 +64,8 @@ $( document ).ready( function() {
  </c:if>
  
  		<!-- div class="head_line">Выбор типа документа</div -->
- 		<a href="realization"><div class="menu_button">Реализация</div></a>
- 		<a href="return_back"><div class="menu_button">Возврат</div></a>
+ 		<a href="realization" style="text-decoration: none;"><div class="menu_button">Реализация</div></a>
+ 		<a href="return_back" style="text-decoration: none;"><div class="menu_button">Возврат</div></a>
+ 		<a href="cabinet" style="text-decoration: none;"><div class="menu_button">Завершить работу с ТТ</div></a>
 </body>
 </html>

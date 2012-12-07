@@ -18,6 +18,9 @@ $(document).ready(function () {
     $("#closebtn").click(function () {
       $("#dlg").hide('200', "swing", function () { $("#bkg").fadeOut("100"); });
     });
+    $("#closebtn_simple").click(function () {
+      $("#dlg_calc").hide('200', "swing", function () { $("#bkg_calc").fadeOut("100"); });
+    });
     
     
     $("#filter").click(function () {
@@ -91,9 +94,9 @@ $(document).ready(function () {
 	     var fontSize = Math.sqrt(scaleSource) * scaleFactor; //Multiply the width of the body by the scaling factor:
 	
 	     if (fontSize > maxScale) fontSize = Math.sqrt(maxScale);
-	     if (fontSize < minScale) fontSize = Math.sqrt(minScale); //Enforce the minimum and maximums
+	     //if (fontSize < minScale) fontSize = Math.sqrt(minScale); //Enforce the minimum and maximums
 	
-	     $('#dlg_calc').css('font-size', fontSize + '%');
+	     $("#dlg_calc, #dlg").css('font-size', fontSize + '%');
      }
 
      $(window).resize(function(){
@@ -103,7 +106,9 @@ $(document).ready(function () {
      //Fire it when the page first loads:
      setBodyScale();
  
-     
+     $("#quit").click(function(){
+    	return confirm("Вы точно хотите выйти и не сохранить документ?");
+     });
      
      
      
@@ -130,7 +135,11 @@ $(document).ready(function () {
 	.amount{
 		width: 99%;
 	}
-	
+	.closebtn_simple{
+		text-align: right;
+		padding: 0.5% 3%;
+		cursor: pointer;
+	}
 	.test{}
 	
 	.line{
@@ -168,14 +177,14 @@ $(document).ready(function () {
 	</c:forEach>
 	</table>
 	<input type="submit" class="filter_button" value="Сохранить документ" />
-	<a href="choose_doc_type"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
+	<a href="choose_doc_type" id="quit"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
 </form:form>
 
 
 
 <div class="blockbkg" id="bkg" style="visibility: hidden;">
+    <div class="closebtn_simple" title="Закрыть" id="closebtn" color="red">[отмена]</div>
     <div class="cont" id="dlg" style="visibility: hidden;">
-    <div class="closebtn" title="Close" id="closebtn" color="red">[закрыть]</div>
     <form:form methodParam="POST" modelAttribute="filterAtribute" action="realization" method='POST'>
 		<center>
 				<div class="justtext">Наименование:</div>
@@ -199,16 +208,16 @@ $(document).ready(function () {
 
 
   <div class="blockbkg" id="bkg_calc" style="visibility: hidden;">
+      <div class="closebtn_simple" title="Закрыть" id="closebtn_simple" color="red">[отмена]</div>
     <div class="cont" id="dlg_calc" style="visibility: hidden;">
-      
 <form name="Calc">  
 <TABLE width="100%" style="padding: 0% 4%;">
-<tr><td colspan="4"><p id="productName"/></td></tr>
+<tr><td colspan="4"><p id="productName" style="font-size: smaller;"/></td></tr>
 <TR>
 <TD colspan="3">
 <INPUT TYPE="text"   NAME="Input" id="calc_output" readonly="readonly" style="width: 100%; height: 100%; font-size: larger;">
 </TD>
-<td><center><div class="closebtn" title="Close" id="closebtn_calc" color="red">ОК</div></center></td>
+<td><center><div class="closebtn" title="ОК" id="closebtn_calc" color="red">ОК</div></center></td>
 </TR>
 <TR>
 <TD><INPUT class="calc_but" TYPE="button" NAME="one"   VALUE="  1  " OnClick="Calc.Input.value += '1'"></td>
