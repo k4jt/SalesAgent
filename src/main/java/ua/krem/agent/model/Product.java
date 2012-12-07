@@ -5,6 +5,8 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Product implements Serializable{
 	private Integer id;
+	private Integer amount;
+	
 	private String name;
 	private String group;
 	private String subgroup;
@@ -58,6 +60,12 @@ public class Product implements Serializable{
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Integer getAmount() {
+		return amount;
+	}
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 	
 }

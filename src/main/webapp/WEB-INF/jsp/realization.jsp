@@ -16,7 +16,7 @@ $(document).ready(function () {
 	
 	
     $("#closebtn").click(function () {
-      $("#dlg").hide('800', "swing", function () { $("#bkg").fadeOut("500"); });
+      $("#dlg").hide('200', "swing", function () { $("#bkg").fadeOut("100"); });
     });
     
     
@@ -29,13 +29,17 @@ $(document).ready(function () {
         document.getElementById('dlg').style.visibility = '';
         $("#dlg").hide();
       }
-      $("#bkg").fadeIn(500, "linear", function () { $("#dlg").show(800, "swing"); });
+      $("#bkg").fadeIn(100, "linear", function () { $("#dlg").show(200, "swing"); });
     });
         
  
 	 $(".test").click(function(){
 		$(".test").children(".amount").removeClass("selected");
 		$(this).children(".amount").addClass("selected");
+		
+		var prodName = $(".test").children(".selected").parent().parent().parent().children().get(1).innerHTML;
+		$("#productName").html(prodName);
+		
 	    if (document.getElementById('bkg_calc').style.visibility == 'hidden') {
 	        document.getElementById('bkg_calc').style.visibility = '';
 	        $("#bkg_calc").hide();
@@ -44,32 +48,52 @@ $(document).ready(function () {
 	        document.getElementById('dlg_calc').style.visibility = '';
 	        $("#dlg_calc").hide();
 	      }
-	      $("#bkg_calc").fadeIn(500, "linear", function () { $("#dlg_calc").show(800, "swing"); });
+	      $("#bkg_calc").fadeIn(100, "linear", function () { $("#dlg_calc").show(200, "swing"); });
 	 });
  
  
      $("#closebtn_calc").click(function () {
-    	 var text = $("#calc_output").val();
-    	 $(".test").children(".selected").val(text);
+    	 var amount = $("#calc_output").val();
+    	 $(".test").children(".selected").val(amount);
 		document.getElementById('calc_output').value = '';
-       $("#dlg_calc").hide('800', "swing", function () { $("#bkg_calc").fadeOut("500"); });
+		
+		
+		var str = $(".test").children(".selected").parent().parent().parent().children().get(0).innerHTML;
+		var prodId = $(".test").children(".selected").parent().parent().parent().children().get(0).innerHTML.substring(str.indexOf("value=") + 7);
+		prodId = prodId.substring(0, prodId.length - 2);
+		/* alert("id = " + prodId + " amount = " + amount); */
+		
+		var prodName = $(".test").children(".selected").parent().parent().parent().children().get(1).innerHTML;
+		var output = prodId + " " + amount;
+		
+		$.ajax({
+  		    url: "addItem.html",
+      		type: "GET",
+      		data: ({idAmount: output}),
+      		dataType: "text"
+   			}
+  		);
+		
+		
+		
+       $("#dlg_calc").hide('100', "swing", function () { $("#bkg_calc").fadeOut("200"); });
      });
  
  
      var $body = $('body'); //Cache this for performance
 
      var setBodyScale = function() {
-         var scaleFactor = 0.55,
-             scaleSource = $(window).height(),
-             maxScale = 600,
-             minScale = 10;
+    	 var scaleFactor = 0.3,
+         scaleSource = $(window).height()*$(window).width(),
+         maxScale = 3600,
+         minScale = 100;
 
-         var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
-
-         if (fontSize > maxScale) fontSize = maxScale;
-         if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
-
-         $('#dlg_calc').css('font-size', fontSize + '%');
+	     var fontSize = Math.sqrt(scaleSource) * scaleFactor; //Multiply the width of the body by the scaling factor:
+	
+	     if (fontSize > maxScale) fontSize = Math.sqrt(maxScale);
+	     if (fontSize < minScale) fontSize = Math.sqrt(minScale); //Enforce the minimum and maximums
+	
+	     $('#dlg_calc').css('font-size', fontSize + '%');
      }
 
      $(window).resize(function(){
@@ -99,6 +123,7 @@ $(document).ready(function () {
 		color: white;
 		padding: 1% 0;
 		margin-bottom: 1%;
+		font-family: Times New Roman; 
 	}
 	
 	.selected{}
@@ -130,20 +155,20 @@ $(document).ready(function () {
 	<table border="1" width="100%">
 	<tr>
 	<th style="display: none;">Id</th>
-	<th>Name</th>
-	<th>Amount</th>
+	<th>Наименование</th>
+	<th>Заказ</th>
 	
 	</tr>
 	<c:forEach var="row" items="${productList}">
 		<tr>
 			<td style="display: none;"><input type="text" name="prodId" value='<c:out value="${row.id}"/>' /></td>
 			<td><c:out value="${row.name}"/></td>
-			<td><a href="#" class="test"><input type="text" class="amount" name="amount" readonly="readonly" /></a></td>
+			<td><a href="#" class="test"><input type="text" class="amount" name="amount" readonly="readonly" value='<c:out value="${row.amount}"/>' /></a></td>
 		</tr>
 	</c:forEach>
 	</table>
-	<input type="submit" class="filter_button" value="Сохранить" />
-	<a href="choose_doc_type"><div class="filter_button" style="float: left;">Назад</div></a>
+	<input type="submit" class="filter_button" value="Сохранить документ" />
+	<a href="choose_doc_type"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
 </form:form>
 
 
@@ -153,9 +178,9 @@ $(document).ready(function () {
     <div class="closebtn" title="Close" id="closebtn" color="red">[закрыть]</div>
     <form:form methodParam="POST" modelAttribute="filterAtribute" action="realization" method='POST'>
 		<center>
-				<div class="justtext">Name:</div>
+				<div class="justtext">Наименование:</div>
 				<input type='text' class="selement" name='prodName' />
-				<div class="justtext">Brand:</div>
+				<div class="justtext">Производитель:</div>
 				<select class="selement" name='brand'>
 					<option></option>
 					<c:forEach var="op" items="${brandList}">
@@ -175,10 +200,10 @@ $(document).ready(function () {
 
   <div class="blockbkg" id="bkg_calc" style="visibility: hidden;">
     <div class="cont" id="dlg_calc" style="visibility: hidden;">
-      	
       
 <form name="Calc">  
-<TABLE width="100%" style="padding: 2% 4%;">
+<TABLE width="100%" style="padding: 0% 4%;">
+<tr><td colspan="4"><p id="productName"/></td></tr>
 <TR>
 <TD colspan="3">
 <INPUT TYPE="text"   NAME="Input" id="calc_output" readonly="readonly" style="width: 100%; height: 100%; font-size: larger;">

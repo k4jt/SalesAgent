@@ -34,7 +34,7 @@
          			document.getElementById('code').value = msg;                 
         }, 'text'); */ 
 		document.getElementById('calc_output').value = '';
-        $("#dlg").hide('800', "swing", function () { $("#bkg").fadeOut("500"); });
+        $("#dlg").hide('200', "swing", function () { $("#bkg").fadeOut("100"); });
       });
       $("#opn").click(function () {
         if (document.getElementById('bkg').style.visibility == 'hidden') {
@@ -45,23 +45,23 @@
           document.getElementById('dlg').style.visibility = '';
           $("#dlg").hide();
         }
-        $("#bkg").fadeIn(500, "linear", function () { $("#dlg").show(800, "swing"); });
+        $("#bkg").fadeIn(100, "linear", function () { $("#dlg").show(200, "swing"); });
       });    
 	
     var $body = $('body'); //Cache this for performance
 
     var setBodyScale = function() {
-        var scaleFactor = 0.55,
-            scaleSource = $(window).height(),
-            maxScale = 600,
-            minScale = 10;
+    	var scaleFactor = 0.3,
+        scaleSource = $(window).height()*$(window).width(),
+        maxScale = 3600,
+        minScale = 100;
 
-        var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
-
-        if (fontSize > maxScale) fontSize = maxScale;
-        if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
-
-        $('body').css('font-size', fontSize + '%');
+	    var fontSize = Math.sqrt(scaleSource) * scaleFactor; //Multiply the width of the body by the scaling factor:
+	
+	    if (fontSize > maxScale) fontSize = Math.sqrt(maxScale);
+	    if (fontSize < minScale) fontSize = Math.sqrt(minScale); //Enforce the minimum and maximums
+	
+	    $('body').css('font-size', fontSize + '%');
     }
 
     $(window).resize(function(){
@@ -105,6 +105,7 @@
       
 <form name="Calc">  
 <TABLE width="100%" style="padding: 2% 4%;">
+<tr><td colspan="4">Введите код торговой точки</td></tr>
 <TR>
 <TD colspan="3">
 <INPUT TYPE="text"   NAME="Input" id="calc_output" readonly="readonly" style="width: 100%; height: 100%; font-size: larger;">

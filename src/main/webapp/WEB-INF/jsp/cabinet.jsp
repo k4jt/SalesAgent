@@ -41,10 +41,10 @@ $( document ).ready( function() {
 
 </head>
 <body>
-	<a href="tasks_with_tp"><div class="menu_button">Работа с ТТ</div></a>
-	<a href="documents"><div class="menu_button">Документы</div></a>
-	<a href="synchronisation"><div class="menu_button">Синхронизация</div></a>
-	<a href="reports"><div class="menu_button">Отчеты</div></a>
+	<a href="tasks_with_tp" style="text-decoration: none;"><div class="menu_button">Работа с ТТ</div></a>
+	<a href="documents" style="text-decoration: none;"><div class="menu_button">Документы</div></a>
+	<a href="synchronisation" style="text-decoration: none;"><div class="menu_button">Синхронизация</div></a>
+	<a href="reports" style="text-decoration: none;"><div class="menu_button">Отчеты</div></a>
 	
 </body>
 </html>

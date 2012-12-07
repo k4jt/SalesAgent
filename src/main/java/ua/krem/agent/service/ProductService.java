@@ -10,6 +10,7 @@ import ua.krem.agent.dao.ProductDAO;
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Document;
 import ua.krem.agent.model.Filter;
+import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
 
 @Service
@@ -22,8 +23,8 @@ public class ProductService {
 		this.productDAO = productDAO;
 	}
 	
-	public List<Product> getProducts(Filter filter){
-		return productDAO.getProducts(filter);
+	public List<Product> getProducts(Filter filter, List<Item> itemList){
+		return productDAO.getProducts(filter, itemList);
 	}
 	
 	public List<Brand> getBrands(){
