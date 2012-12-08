@@ -1,13 +1,12 @@
 package ua.krem.agent.model;
 
-import java.util.Date;
 
 public class DocHeadFilter {
 
 	private Integer userId;
 	private Integer docType;
-	private Date from;
-	private Date to;
+	private String from;
+	private String to;
 	private String add1;
 	private String add2;
 	
@@ -23,18 +22,6 @@ public class DocHeadFilter {
 	public void setDocType(Integer docType) {
 		this.docType = docType;
 	}
-	public Date getFrom() {
-		return from;
-	}
-	public void setFrom(Date from) {
-		this.from = from;
-	}
-	public Date getTo() {
-		return to;
-	}
-	public void setTo(Date to) {
-		this.to = to;
-	}
 	public String getAdd1() {
 		return add1;
 	}
@@ -46,6 +33,18 @@ public class DocHeadFilter {
 	}
 	public void setAdd2(String add2) {
 		this.add2 = add2;
+	}
+	public String getFrom() {
+		return from;
+	}
+	public void setFrom(String from) {
+		this.from = from;
+	}
+	public String getTo() {
+		return to;
+	}
+	public void setTo(String to) {
+		this.to = to;
 	}
 	
 }

@@ -93,7 +93,7 @@ $(document).ready(function () {
      var $body = $('body'); //Cache this for performance
 
      var setBodyScale = function() {
-    	 var scaleFactor = 0.3,
+    	 var scaleFactor = 0.25,
          scaleSource = $(window).height()*$(window).width(),
          maxScale = 3600,
          minScale = 100;
@@ -168,8 +168,8 @@ $(document).ready(function () {
 	<tr>
 	<th style="display: none;">Id</th>
 	<th>Дата</th>
-	<th>АДД1</th>
-	<th>АДД2</th>
+	<th>Название</th>
+	<th>Заказчик</th>
 	<th>Тип</th>
 	
 	</tr>
@@ -191,11 +191,19 @@ $(document).ready(function () {
 <div class="blockbkg" id="bkg" style="visibility: hidden;">
     <div class="closebtn_simple" title="Закрыть" id="closebtn" color="red">[отмена]</div>
     <div class="cont" id="dlg" style="visibility: hidden;">
-    <form:form methodParam="POST" modelAttribute="filterAtribute" action="filterTP" method='POST'>
+    <form:form methodParam="POST" modelAttribute="filterAtribute" action="filterDoc" method='POST'>
 		<center>
-				<div class="justtext">Код:</div><input type='text' class="selement" name='code' />
-				<div class="justtext">Название:</div><input type='text' class="selement" name='name' />
-				<div class="justtext">Адрес:</div><input type='text' class="selement" name='address' />
+				<div class="justtext">Заказчик:</div><input type='text' class="selement" name='add2' />
+				<div class="justtext">Название:</div><input type='text' class="selement" name='add1' />
+				<div class="justtext">Дата с:</div><input type='text' class="selement" name='from' />
+				<div class="justtext">Дата по:</div><input type='text' class="selement" name='to' />
+				
+				<div class="justtext">Тип:</div>
+				<select class="selement" name='docType'>
+					<option></option>
+					<option value="0">Реализация</option>
+					<option value="1">Возврат</option>
+				</select>
 				
 				<input type="submit" class="selement" value="OK">
 		</center>

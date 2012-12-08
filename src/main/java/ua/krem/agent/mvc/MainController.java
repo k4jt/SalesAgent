@@ -287,8 +287,20 @@ public class MainController {
 		}
 		model.addObject("shopList", documentService.selectDoc(filter));
 		
-		
+		return model;
+	}
+	
+	@RequestMapping(value="/filterDoc", method = RequestMethod.POST)
+	public ModelAndView filtereDoc(@ModelAttribute("filterAtribute") DocHeadFilter filter, HttpSession session){
+		ModelAndView model = new ModelAndView("documents");
+		User user = (User)session.getAttribute("user");
+		System.out.println("user = " + user);
+		if(user != null){
+			filter.setUserId(user.getId());
+		}
+		model.addObject("shopList", documentService.selectDoc(filter));
 		
 		return model;
 	}
+	
 }

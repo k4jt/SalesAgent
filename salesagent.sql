@@ -1,4 +1,4 @@
-﻿ /*
+/*
 Navicat MySQL Data Transfer
 
 Source Server         : home
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50523
 File Encoding         : 65001
 
-Date: 2012-12-08 01:04:44
+Date: 2012-12-08 15:09:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3046,7 +3046,7 @@ CREATE TABLE `doc` (
   CONSTRAINT `doc_ibfk_1` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`warehouse_id`),
   CONSTRAINT `doc_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`),
   CONSTRAINT `doc_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `sa_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of doc
@@ -3057,6 +3057,13 @@ INSERT INTO `doc` VALUES ('7', '2012-12-08 00:09:36', '1', '3346', '768', '0', '
 INSERT INTO `doc` VALUES ('8', '2012-12-08 00:09:33', '1', '3337', '1', '0', '2 Предприятие Горгаз ул. Героев Бреста, 46', 'Кременчукгаз ВАТ');
 INSERT INTO `doc` VALUES ('12', '2012-12-08 00:09:20', '1', '3373', '1', '0', '38 М-н Кременчугмясо № 18 ул.Манагарова 1', 'Кременчугмясо ВАТ');
 INSERT INTO `doc` VALUES ('13', '2012-12-08 00:52:21', '1', '3357', '1', '0', '22 М-н Сибирь ул.Котлова', null);
+INSERT INTO `doc` VALUES ('14', '2012-12-08 10:21:57', '1', '3346', '1', '0', '11 Киоск Крюковчанка Рынок Крюковчанка', 'Варивода Татьяна Леонидовна ПП');
+INSERT INTO `doc` VALUES ('15', '2012-12-08 10:25:19', '1', '3337', '1', '0', '2 Предприятие Горгаз ул. Героев Бреста, 46', 'Кременчукгаз ВАТ');
+INSERT INTO `doc` VALUES ('16', '2012-12-08 10:26:40', '1', '3357', '1', '0', '22 М-н Сибирь ул.Котлова', null);
+INSERT INTO `doc` VALUES ('17', '2012-12-08 10:30:46', '1', '3379', '1', '0', '44 М-н Ассорти ул.Приходько 15', 'Ченсеп ПП');
+INSERT INTO `doc` VALUES ('18', '2012-12-08 10:42:11', '1', '3346', '1', '1', '11 Киоск Крюковчанка Рынок Крюковчанка', 'Варивода Татьяна Леонидовна ПП');
+INSERT INTO `doc` VALUES ('19', '2012-12-08 10:43:07', '1', '3346', '1', '0', '11 Киоск Крюковчанка Рынок Крюковчанка', 'Варивода Татьяна Леонидовна ПП');
+INSERT INTO `doc` VALUES ('20', '2012-12-08 14:37:36', '1', '3340', '768', '1', '5 Киоск Молоко  Вика Центральный рынок', 'Третьякова Виктория ПП');
 
 -- ----------------------------
 -- Table structure for `doc_element`
@@ -3072,7 +3079,7 @@ CREATE TABLE `doc_element` (
   KEY `R_36` (`prod_id`),
   CONSTRAINT `doc_element_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `doc` (`doc_id`),
   CONSTRAINT `doc_element_ibfk_2` FOREIGN KEY (`prod_id`) REFERENCES `product` (`prod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of doc_element
@@ -3086,6 +3093,15 @@ INSERT INTO `doc_element` VALUES ('9', '6666', '8', '5');
 INSERT INTO `doc_element` VALUES ('10', '22', '8', '19');
 INSERT INTO `doc_element` VALUES ('11', '6', '8', '16');
 INSERT INTO `doc_element` VALUES ('12', '5', '13', '2');
+INSERT INTO `doc_element` VALUES ('13', '2', '14', '2');
+INSERT INTO `doc_element` VALUES ('14', '33', '14', '20');
+INSERT INTO `doc_element` VALUES ('15', '3', '15', '21');
+INSERT INTO `doc_element` VALUES ('16', '2', '16', '1');
+INSERT INTO `doc_element` VALUES ('17', '2', '17', '1');
+INSERT INTO `doc_element` VALUES ('18', '3', '18', '1');
+INSERT INTO `doc_element` VALUES ('19', '11', '19', '3');
+INSERT INTO `doc_element` VALUES ('20', '22', '19', '19');
+INSERT INTO `doc_element` VALUES ('21', '22', '20', '1');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -5051,7 +5067,7 @@ INSERT INTO `shop` VALUES ('4751', '1463', 'Крюковское Карьеро�
 INSERT INTO `shop` VALUES ('4752', '1464', 'Р-н Хутірець', 'ул. 60 лет Октября, 7-б', '4739');
 INSERT INTO `shop` VALUES ('4753', '1465', 'Киоск', 'р-к Южный вокзал', '4740');
 INSERT INTO `shop` VALUES ('4754', '1466', 'Киоск', 'р-к Южный вокзал', '4741');
-INSERT INTO `shop` VALUES ('4755', '1467', null, null, '4742');
+INSERT INTO `shop` VALUES ('4755', '1467', 'Общага 14', 'Ковальський пер. 5', '4742');
 INSERT INTO `shop` VALUES ('4756', '1468', 'КИК № 69', null, null);
 INSERT INTO `shop` VALUES ('4757', '1469', 'Киоск', 'Р-к Алмазный', '4744');
 INSERT INTO `shop` VALUES ('4758', '1470', 'М-н Добрі харчі', 'Р-к Алмазный', '4745');

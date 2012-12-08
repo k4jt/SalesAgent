@@ -72,7 +72,7 @@ private JdbcTemplate jdbcTemplate;
 				sql.append(" type = ").append(filter.getDocType());
 			}
 
-			if(filter.getFrom() != null && filter.getTo() != null){
+			if(filter.getFrom() != null && filter.getTo() != null && !filter.getFrom().isEmpty() && !filter.getTo().isEmpty()){
 				if(sql.indexOf("WHERE") != -1){
 					sql.append(" AND ");
 				} else {
