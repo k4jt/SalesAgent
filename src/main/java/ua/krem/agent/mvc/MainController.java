@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Code;
+import ua.krem.agent.model.DocHeadFilter;
 import ua.krem.agent.model.Document;
 import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
@@ -25,6 +26,7 @@ import ua.krem.agent.model.ProductFilter;
 import ua.krem.agent.model.Shop;
 import ua.krem.agent.model.ShopFilter;
 import ua.krem.agent.model.User;
+import ua.krem.agent.service.DocumentService;
 import ua.krem.agent.service.ProductService;
 import ua.krem.agent.service.ShopService;
 
@@ -33,11 +35,13 @@ public class MainController {
 
 	private ShopService shopService;
 	private ProductService productService;
+	private DocumentService documentService;
 	
 	@Inject
-	public MainController(ShopService shopService, ProductService productService){
+	public MainController(ShopService shopService, ProductService productService, DocumentService documentService){
 		this.shopService = shopService;
 		this.productService = productService;
+		this.documentService = documentService;
 	}
 	
 	@RequestMapping(value="/tasks_with_tp", method = RequestMethod.GET)
@@ -271,5 +275,20 @@ public class MainController {
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	public String test(){
 		return "test";
+	}
+	@RequestMapping(value="/documents", method=RequestMethod.GET)
+	public ModelAndView showDocument(HttpSession session){
+		ModelAndView model = new ModelAndView("documents");
+		User user = (User)session.getAttribute("user");
+		DocHeadFilter filter = new DocHeadFilter();
+		System.out.println("user = " + user);
+		if(user != null){
+			filter.setUserId(user.getId());
+		}
+		model.addObject("shopList", documentService.selectDoc(filter));
+		
+		
+		
+		return model;
 	}
 }

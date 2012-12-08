@@ -50,7 +50,7 @@ public class LoginController {
 			model.addObject("invalidUser", "Неверный логин или пароль");
 			session.removeAttribute("user");
 		}
-		
+		System.out.println("L user = " + user);
 		model.addObject("user", user);
 		return model;
 	}
