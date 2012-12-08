@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import ua.krem.agent.dao.ProductDAO;
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Document;
-import ua.krem.agent.model.Filter;
+import ua.krem.agent.model.ProductFilter;
 import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
 
@@ -23,7 +23,7 @@ public class ProductService {
 		this.productDAO = productDAO;
 	}
 	
-	public List<Product> getProducts(Filter filter, List<Item> itemList){
+	public List<Product> getProducts(ProductFilter filter, List<Item> itemList){
 		return productDAO.getProducts(filter, itemList);
 	}
 	

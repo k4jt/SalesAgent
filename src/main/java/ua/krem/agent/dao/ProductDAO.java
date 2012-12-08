@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Document;
-import ua.krem.agent.model.Filter;
+import ua.krem.agent.model.ProductFilter;
 import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
 
@@ -27,7 +27,7 @@ public class ProductDAO {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public List<Product> getProducts(Filter filter, List<Item> itemListOriginal){
+	public List<Product> getProducts(ProductFilter filter, List<Item> itemListOriginal){
 		List<Item> itemList = null;
 		if(itemListOriginal != null){
 			System.out.println("all ids");

@@ -19,10 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Code;
 import ua.krem.agent.model.Document;
-import ua.krem.agent.model.Filter;
 import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
+import ua.krem.agent.model.ProductFilter;
 import ua.krem.agent.model.Shop;
+import ua.krem.agent.model.ShopFilter;
 import ua.krem.agent.model.User;
 import ua.krem.agent.service.ProductService;
 import ua.krem.agent.service.ShopService;
@@ -155,15 +156,40 @@ public class MainController {
 			}
 		return rez;
 	}
+
+	@RequestMapping(value="/selectShop", method = RequestMethod.GET)
+	public ModelAndView selectShop(@RequestParam String code, HttpSession session) {
+		System.out.println("shop code IS: " + code);
+		
+		ModelAndView model = new ModelAndView("choose_doc_type");
+		Shop shop = shopService.getShopByCode(code);
+		session.setAttribute("shop", shop);
+		model.addObject("shop", shop);
+		
+		return model;
+	}
 	
 	@RequestMapping(value="/choose_doc_type", method = RequestMethod.GET)
 	public String chooseDocType(HttpSession session){
 		session.removeAttribute("docType");
 		return "choose_doc_type";
 	}
-
+	@RequestMapping(value="/filterTP", method = RequestMethod.POST)
+	public ModelAndView filteredShop(@ModelAttribute("filterAtribute") ShopFilter filter, HttpSession session){
+		ModelAndView model = new ModelAndView("choose_from_list");
+		if(filter != null){
+			System.out.println(filter.getCode());
+			System.out.println(filter.getName());
+			System.out.println(filter.getAddress());
+		}
+		model.addObject("shopList", shopService.filterShop(filter));
+		
+		return model;
+	}
+	
 	@RequestMapping(value="/realization", method = RequestMethod.POST)
-	public ModelAndView filteredRezult(@ModelAttribute("filterAtribute") Filter filter, HttpSession session){
+	public ModelAndView filteredRezult(@ModelAttribute("filterAtribute") ProductFilter filter, HttpSession session){
+
 		ModelAndView model = new ModelAndView("realization");
 		
 		if(filter != null){
@@ -231,6 +257,15 @@ public class MainController {
 	@RequestMapping(value="/data", method = RequestMethod.GET)
 	public String data(){
 		return "data";
+	}
+
+	@RequestMapping(value="/choose_from_list", method = RequestMethod.GET)
+	public ModelAndView chooseFromListTT(){
+		ModelAndView model = new ModelAndView("choose_from_list");
+		
+		model.addObject("shopList", shopService.filterShop(null));
+		
+		return model;
 	}
 
 	@RequestMapping(value="/test", method = RequestMethod.GET)
