@@ -151,9 +151,9 @@ public class ProductDAO {
 	}
 	
 	public void addDocument(Document doc){
-		String sql = "INSERT INTO doc (date, warehouse_id, shop_id, user_id) VALUES (NOW(), ?, ?, ?)";
+		String sql = "INSERT INTO doc (date, warehouse_id, shop_id, user_id, type) VALUES (NOW(), ?, ?, ?, ?)";
 		try{
-			if(jdbcTemplate.update(sql, 1, doc.getShopId(), doc.getUserId()) != 0){
+			if(jdbcTemplate.update(sql, 1, doc.getShopId(), doc.getUserId(), doc.getDocType()) != 0){
 				
 				sql = "SELECT max(doc_id) id FROM doc";
 				doc.setId((Integer) jdbcTemplate.queryForInt(sql));

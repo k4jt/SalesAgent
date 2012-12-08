@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50523
 File Encoding         : 65001
 
-Date: 2012-12-08 00:37:43
+Date: 2012-12-08 01:04:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3046,7 +3046,7 @@ CREATE TABLE `doc` (
   CONSTRAINT `doc_ibfk_1` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`warehouse_id`),
   CONSTRAINT `doc_ibfk_2` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`),
   CONSTRAINT `doc_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `sa_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of doc
@@ -3056,6 +3056,7 @@ INSERT INTO `doc` VALUES ('6', '2012-12-08 00:09:54', '1', '3337', '768', '0', '
 INSERT INTO `doc` VALUES ('7', '2012-12-08 00:09:36', '1', '3346', '768', '0', '11 Киоск Крюковчанка Рынок Крюковчанка', 'Варивода Татьяна Леонидовна ПП');
 INSERT INTO `doc` VALUES ('8', '2012-12-08 00:09:33', '1', '3337', '1', '0', '2 Предприятие Горгаз ул. Героев Бреста, 46', 'Кременчукгаз ВАТ');
 INSERT INTO `doc` VALUES ('12', '2012-12-08 00:09:20', '1', '3373', '1', '0', '38 М-н Кременчугмясо № 18 ул.Манагарова 1', 'Кременчугмясо ВАТ');
+INSERT INTO `doc` VALUES ('13', '2012-12-08 00:52:21', '1', '3357', '1', '0', '22 М-н Сибирь ул.Котлова', null);
 
 -- ----------------------------
 -- Table structure for `doc_element`
@@ -3071,7 +3072,7 @@ CREATE TABLE `doc_element` (
   KEY `R_36` (`prod_id`),
   CONSTRAINT `doc_element_ibfk_1` FOREIGN KEY (`doc_id`) REFERENCES `doc` (`doc_id`),
   CONSTRAINT `doc_element_ibfk_2` FOREIGN KEY (`prod_id`) REFERENCES `product` (`prod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of doc_element
@@ -3084,6 +3085,7 @@ INSERT INTO `doc_element` VALUES ('8', '33', '8', '4');
 INSERT INTO `doc_element` VALUES ('9', '6666', '8', '5');
 INSERT INTO `doc_element` VALUES ('10', '22', '8', '19');
 INSERT INTO `doc_element` VALUES ('11', '6', '8', '16');
+INSERT INTO `doc_element` VALUES ('12', '5', '13', '2');
 
 -- ----------------------------
 -- Table structure for `product`
@@ -6988,16 +6990,16 @@ INSERT INTO `warehouse` VALUES ('4', '004', 'Склад 4');
 DROP TRIGGER IF EXISTS `FILL_ADD_ON_INS`;
 DELIMITER ;;
 CREATE TRIGGER `FILL_ADD_ON_INS` BEFORE INSERT ON `doc` FOR EACH ROW BEGIN
- SET NEW.add1 = (SELECT CONCAT_WS(' ',X.CODE, X.NAME, X.ADDRESS) FROM SHOP X WHERE X.SHOP_ID = NEW.SHOP_ID), 
-                                   NEW.add2 = (SELECT Y.NAME FROM counteragent Y WHERE Y.counteragent_id=(SELECT X.shop_cagent_id FROM SHOP X WHERE X.shop_id = NEW.SHOP_ID));
+ SET NEW.add1 = (SELECT CONCAT_WS(' ', shop.CODE, shop.NAME, shop.ADDRESS) FROM shop WHERE shop.shop_id = NEW.shop_id), 
+                                   NEW.add2 = (SELECT counteragent.NAME FROM counteragent WHERE counteragent.counteragent_id=(SELECT shop.shop_cagent_id FROM shop WHERE shop.shop_id = NEW.shop_id));
 END
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `FILL_ADD_ON_UPD`;
 DELIMITER ;;
 CREATE TRIGGER `FILL_ADD_ON_UPD` BEFORE UPDATE ON `doc` FOR EACH ROW BEGIN
- SET NEW.add1 = (SELECT CONCAT_WS(' ',X.CODE, X.NAME, X.ADDRESS) FROM SHOP X WHERE X.SHOP_ID = NEW.SHOP_ID), 
-                                   NEW.add2 = (SELECT Y.NAME FROM counteragent Y WHERE Y.counteragent_id=(SELECT X.shop_cagent_id FROM SHOP X WHERE X.shop_id = NEW.SHOP_ID));
+ SET NEW.add1 = (SELECT CONCAT_WS(' ', shop.CODE, shop.NAME, shop.ADDRESS) FROM shop WHERE shop.shop_id = NEW.shop_id), 
+                                   NEW.add2 = (SELECT counteragent.NAME FROM counteragent WHERE counteragent.counteragent_id=(SELECT shop.shop_cagent_id FROM shop WHERE shop.shop_id = NEW.shop_id));
 END
 ;;
 DELIMITER ;

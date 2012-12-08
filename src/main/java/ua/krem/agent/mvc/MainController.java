@@ -52,6 +52,12 @@ public class MainController {
 	@RequestMapping(value="/procDoc", method = RequestMethod.POST)
 	public String procDoc(@ModelAttribute("atribute") Document doc, HttpSession session){
 		session.removeAttribute("itemList");
+		System.out.println("DocType: " + session.getAttribute("docType"));
+		doc.setDocType( (Integer)session.getAttribute("docTypeId")  );
+
+		System.out.println("docType: " + doc.getDocType());
+		session.removeAttribute("docType");
+		session.removeAttribute("docTypeId");
 		Shop shop = (Shop)session.getAttribute("shop");
 		User user = (User)session.getAttribute("user");
 		if(user != null && shop != null){
@@ -151,7 +157,8 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/choose_doc_type", method = RequestMethod.GET)
-	public String chooseDocType(){
+	public String chooseDocType(HttpSession session){
+		session.removeAttribute("docType");
 		return "choose_doc_type";
 	}
 
@@ -188,7 +195,15 @@ public class MainController {
 	
 	@RequestMapping(value="/realization", method = RequestMethod.GET)
 	public ModelAndView realization(HttpSession session){
+		session.removeAttribute("docType");
+		session.removeAttribute("docTypeId");
 		session.setAttribute("docType", "Реализация");
+		session.setAttribute("docTypeId", 0);
+		return makeDoc(session);
+	}
+	private ModelAndView makeDoc(HttpSession session){
+		System.out.println(session.getAttribute("docType"));
+		System.out.println(session.getAttribute("docTypeId"));
 		session.removeAttribute("itemList");
 		
 		Shop shop = (Shop)session.getAttribute("shop");
@@ -206,18 +221,11 @@ public class MainController {
 
 	@RequestMapping(value="/return_back", method = RequestMethod.GET)
 	public ModelAndView returnBack(HttpSession session){
+		session.removeAttribute("docType");
+		session.removeAttribute("docTypeId");
 		session.setAttribute("docType", "Возврат");
-		Shop shop = (Shop)session.getAttribute("shop");
-		System.out.println("getted shop: " + shop);
-		
-		List<Product> list = productService.getProducts(null, null);
-		ModelAndView model = new ModelAndView("realization");
-		model.addObject("productList", list);
-		
-		List<Brand> brandList = productService.getBrands();
-		model.addObject("brandList", brandList);
-		
-		return model;
+		session.setAttribute("docTypeId", 1);
+		return makeDoc(session);
 	}
 
 	@RequestMapping(value="/data", method = RequestMethod.GET)
