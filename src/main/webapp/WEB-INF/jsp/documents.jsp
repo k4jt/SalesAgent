@@ -7,10 +7,11 @@
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
-<link href="${pageContext.request.contextPath}/css/jquery-ui.css" rel="stylesheet" media="all" />
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
-<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.min.js" ></script>
+<!-- script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.min.js" ></script> -->
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-ui.min.js" ></script>
+<link href="${pageContext.request.contextPath}/css/ui-lightness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Выбор типа накладной</title>
 

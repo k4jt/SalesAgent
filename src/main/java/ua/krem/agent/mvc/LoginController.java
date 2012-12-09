@@ -48,10 +48,11 @@ public class LoginController {
 		}else{
 			model = new ModelAndView("login");
 			model.addObject("invalidUser", "Неверный логин или пароль");
+			model.addObject("user_login", loginData.getUsername());
 			session.removeAttribute("user");
 		}
 		System.out.println("L user = " + user);
-		model.addObject("user", user);
+		//model.addObject("user", user);
 		return model;
 	}
 	
