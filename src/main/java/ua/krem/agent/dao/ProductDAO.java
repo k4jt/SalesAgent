@@ -27,6 +27,7 @@ public class ProductDAO {
 	}
 
 	public List<Product> getProducts(ProductFilter filter, List<Item> itemListOriginal){
+		boolean cutTail = filter == null && itemListOriginal != null;
 		List<Item> itemList = null;
 		if(itemListOriginal != null){
 			System.out.println("all ids");
@@ -54,6 +55,10 @@ public class ProductDAO {
 		System.out.println(sql.toString());
 		List<Product> productList = new ArrayList<Product>();
 		List<Product> result = new ArrayList<Product>();
+	
+	if(!cutTail){
+			
+		
 		try{
 			List <Map<String, Object>> list = jdbcTemplate.queryForList(sql.toString());
 			if(list != null && !list.isEmpty()){
@@ -71,9 +76,6 @@ public class ProductDAO {
 						for(int j = 0; j < itemList.size(); ++j){
 							if(itemList.get(j).id == item.getId()){
 								continue qwerty;
-//								item.setAmount(itemList.get(j).amount);
-//								System.out.println("remove " + itemList.get(j).id);
-//								itemList.remove(j);
 							}
 						}
 					}
@@ -84,7 +86,7 @@ public class ProductDAO {
 		}catch(EmptyResultDataAccessException e){
 			e.printStackTrace();
 		}
-		
+	}	
 		if(itemList != null && !itemList.isEmpty()){
 			StringBuilder buildId = new StringBuilder();
 			for(Item i : itemList){
@@ -147,6 +149,84 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 		return brandList;
+	}
+	
+	public String editDocument(Document doc){
+		String result = null;
+		
+		String sql = "SELECT doc_element_id, prod_id, amount FROM doc_element WHERE doc_id = ?";
+		List<Integer> toDelete = new ArrayList<Integer>();
+		List<Integer> exist = new ArrayList<Integer>();
+		List<Item> toInsert = new ArrayList<Item>();
+		try{
+			List <Map<String, Object>> currentlist = jdbcTemplate.queryForList(sql, doc.getId());
+			if(currentlist != null && !currentlist.isEmpty()){
+				for(Map<String, Object> map : currentlist)	{
+					Integer prodId = (Integer)map.get("prod_id");
+					Integer amount = (Integer)map.get("amount");
+					Integer elemId = (Integer)map.get("doc_element_id");
+					Item item = new Item();
+					item.amount = amount;
+					System.out.println("prodId = " + prodId);
+					item.id = prodId;
+					System.out.println("item.id = " + item.id);
+					
+					for(int i = 0; i < doc.getProdId().length; ++i){
+						Integer curProdId = Integer.parseInt(doc.getProdId()[i]);
+						if(curProdId == prodId){
+							Integer curAmount = Integer.parseInt(doc.getAmount()[i]);
+							if(curAmount != amount){
+								toDelete.add(elemId);
+								toInsert.add(item);
+							}else{
+								exist.add(prodId);
+							}
+							break;
+						}
+					}
+				}
+			}
+			
+			
+			for(int i = 0; i < doc.getAmount().length; ++i){
+				Integer curProdId = Integer.parseInt(doc.getProdId()[i]);
+				boolean find = false;
+				for(Integer alreadyExistProdId : exist){
+					if(alreadyExistProdId == curProdId){
+						find = true;
+						break;
+					}
+				}
+				
+				if(!find){
+					if(doc.getAmount()[i] != null && !doc.getAmount()[i].isEmpty()){
+						Item item = new Item();
+						item.amount = Integer.parseInt( doc.getAmount()[i]);
+						item.id = curProdId;
+						toInsert.add(item);
+					}
+				}
+			}
+			
+			
+			sql = "DELETE FROM doc_element WHERE doc_element_id = ?";
+			for(Integer elem_id : toDelete){
+				jdbcTemplate.update(sql, elem_id);
+			}
+			
+			sql = "INSERT INTO doc_element (amount, doc_id, prod_id) VALUES (?, ?, ?)";
+			for(Item item : toInsert){
+				jdbcTemplate.update(sql, item.amount, doc.getId(), item.id);
+			}
+			
+			result = "Сохранение прошло успешно";
+			
+		}catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
+			result = "Ощибка";
+		}
+		
+		return result;
 	}
 	
 	public String addDocument(Document doc){

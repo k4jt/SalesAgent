@@ -62,12 +62,14 @@ $(document).ready(function () {
         
  
 	 $(".test_click").click(function(){
-		var id = $(this).children().get(1).innerHTML;
-		/* var name = $(this).children().get(2).innerHTML;
-		var	address = $(this).children().get(3).innerHTML; */
+		var str = $(this).children().get(0).innerHTML;
+		var id = $(this).children().get(0).innerHTML.substring(str.indexOf("value=") + 7);
+		id = id.substring(0, id.length - 2);
+		var name = $(this).children().get(2).innerHTML;
+		/*var	address = $(this).children().get(3).innerHTML; */
 
 		if(confirm("Вы действительно хотите выбрать документ #" + name + "# ?")){
-			window.location.replace("realization?docId=" + id);
+			window.location.replace("edit_doc?docId=" + id);
 			/* $.ajax({
 	  		    url: "selectShop.html",
 	      		type: "GET",

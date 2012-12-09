@@ -180,7 +180,13 @@ $(document).ready(function () {
 	</c:forEach>
 	</table>
 	<input type="submit" id="#save_doc" class="filter_button" value="Сохранить документ"  />
-	<a href="choose_doc_type" id="quit"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
+	<c:if test="${docId != null }">
+ 			<a href="documents" id="quit"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
+ 	</c:if>
+ 	<c:if test="${docId == null }">
+		<a href="choose_doc_type" id="quit"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
+	</c:if>
+	
 </form:form>
 
 

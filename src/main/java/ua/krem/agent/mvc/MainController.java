@@ -56,6 +56,7 @@ public class MainController {
 
 	@RequestMapping(value="/procDoc", method = RequestMethod.POST)
 	public ModelAndView procDoc(@ModelAttribute("atribute") Document doc, HttpSession session){
+		ModelAndView model = null;
 		session.removeAttribute("itemList");
 		System.out.println("DocType: " + session.getAttribute("docType"));
 		doc.setDocType( (Integer)session.getAttribute("docTypeId")  );
@@ -63,15 +64,25 @@ public class MainController {
 		System.out.println("docType: " + doc.getDocType());
 		session.removeAttribute("docType");
 		session.removeAttribute("docTypeId");
+		Integer docId = (Integer)session.getAttribute("docId");
+		session.removeAttribute("docId");
+		System.out.println("docId = " + docId);
 		Shop shop = (Shop)session.getAttribute("shop");
 		User user = (User)session.getAttribute("user");
 		if(user != null && shop != null){
 			doc.setUserId(user.getId());
 			doc.setShopId(shop.getId());
 		}
-		ModelAndView model = new ModelAndView("choose_doc_type");
-		model.addObject("save_result", productService.addDocument(doc));
+		if(docId != null){
+			doc.setId(docId);
+			model = new ModelAndView("cabinet");
+			model.addObject("save_result", productService.editDocument(doc));
+		} else {
+			model = new ModelAndView("choose_doc_type");
+			model.addObject("save_result", productService.addDocument(doc));
+		}
 		
+		System.out.println("model = " + model.getViewName() );
 		return model;
 	}
 	
@@ -224,13 +235,28 @@ public class MainController {
 	
 	
 	@RequestMapping(value="/realization", method = RequestMethod.GET)
-	public ModelAndView realization(HttpSession session, @RequestParam Integer docId){
-		if(docId != null){
+	public ModelAndView realization(HttpSession session){
+		session.removeAttribute("docType");
+		session.removeAttribute("docTypeId");
+		session.setAttribute("docType", "Реализация");
+		session.setAttribute("docTypeId", 0);
+		return makeDoc(session);
+	}
+	
+	@RequestMapping(value="/edit_doc", method = RequestMethod.GET)
+	public ModelAndView edit(HttpSession session, @RequestParam String docId){
+		if(docId == null || docId.isEmpty()){
 			session.setAttribute("docType", "Реализация");
 			session.setAttribute("docTypeId", 0);
 			return makeDoc(session);
 		} else {
-			return editDoc(session, docId);
+			try{
+				Integer id = Integer.parseInt(docId);
+				return editDoc(session, id);
+			}catch(NumberFormatException e){
+				e.printStackTrace();
+				return makeDoc(session);
+			}
 		}
 	}
 	
@@ -254,8 +280,9 @@ public class MainController {
 				session.setAttribute("docType", "Возврат");
 			}
 			
-			Shop shop = shopService.getShopById(doc.getShopId());
-			session.setAttribute("shop", shop);
+			session.setAttribute("shop", shopService.getShopById(doc.getShopId()) );
+			session.setAttribute("itemList", doc.getItemList());
+			
 			model.addObject("productList", doc.getProductList());
 			
 			
@@ -267,8 +294,8 @@ public class MainController {
 	}
 	
 	private ModelAndView makeDoc(HttpSession session){
-		session.removeAttribute("docType");
-		session.removeAttribute("docTypeId");
+		session.removeAttribute("docId");
+		
 		System.out.println(session.getAttribute("docType"));
 		System.out.println(session.getAttribute("docTypeId"));
 		session.removeAttribute("itemList");
@@ -288,6 +315,8 @@ public class MainController {
 
 	@RequestMapping(value="/return_back", method = RequestMethod.GET)
 	public ModelAndView returnBack(HttpSession session){
+		session.removeAttribute("docType");
+		session.removeAttribute("docTypeId");
 		session.setAttribute("docType", "Возврат");
 		session.setAttribute("docTypeId", 1);
 		return makeDoc(session);

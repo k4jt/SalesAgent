@@ -17,7 +17,9 @@ public class Document implements Serializable{
 	
 	public String[] amount;
 	
-	public List<Product> productList;
+	private List<Product> productList;
+
+	private List<Item> itemList;
 
 	public String[] getAmount() {
 		return amount;
@@ -73,6 +75,14 @@ public class Document implements Serializable{
 
 	public void setProductList(List<Product> productList) {
 		this.productList = productList;
+	}
+
+	public List<Item> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<Item> itemList) {
+		this.itemList = itemList;
 	}
 	
 }

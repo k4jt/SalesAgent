@@ -168,7 +168,7 @@ public class DocumentDAO {
 				doc.setDocType((Integer)map.get("type"));
 				
 				sql = "SELECT prod_id, amount FROM doc_element WHERE doc_id = ?";
-				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString(), docId);
 				List<Item> itemList = new ArrayList<Item>();
 				for(Map<String, Object> m : mapList){
 					Item item = new Item();
@@ -176,7 +176,7 @@ public class DocumentDAO {
 					item.amount = (Integer)m.get("amount");
 					itemList.add(item);
 				}
-				
+				doc.setItemList(itemList);
 				doc.setProductList( productDAO.getProducts(null, itemList) );
 				
 			}

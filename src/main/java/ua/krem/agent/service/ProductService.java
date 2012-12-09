@@ -35,4 +35,7 @@ public class ProductService {
 		return productDAO.addDocument(doc);
 	}
 	
+	public String editDocument(Document doc){
+		return productDAO.editDocument(doc);
+	}
 }
