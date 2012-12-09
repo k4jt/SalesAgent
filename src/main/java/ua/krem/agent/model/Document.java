@@ -1,7 +1,7 @@
 package ua.krem.agent.model;
 
 import java.io.Serializable;
-
+@SuppressWarnings("serial")
 public class Document implements Serializable{
 
 	private Integer id;

@@ -3,7 +3,6 @@ package ua.krem.agent.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import javax.inject.Inject;
 
@@ -14,9 +13,9 @@ import org.springframework.stereotype.Repository;
 
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Document;
-import ua.krem.agent.model.ProductFilter;
 import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
+import ua.krem.agent.model.ProductFilter;
 
 @Repository
 public class ProductDAO {
