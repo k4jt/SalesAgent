@@ -54,7 +54,14 @@ $( document ).ready( function() {
 	<form:form methodParam="POST" modelAttribute="atribute" action="login" method='POST'>
 		<center>
 				<div class="justtext">Login:</div>
-				<input type='text' class="selement" name='username' />
+				<c:choose>
+				    <c:when test="${user_login!=null}">
+				    	<input type='text' class="selement" name='username' value='<c:out value="${user_login}"/>'/>
+				    </c:when>
+				    <c:otherwise>
+				    	<input type='text' class="selement" name='username' />
+				    </c:otherwise>
+			    </c:choose>
 				<div class="justtext">Password:</div>
 				<input type='password' class="selement" name='password' />
 				<input type="submit" class="selement" value="OK">
