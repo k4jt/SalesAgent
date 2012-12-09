@@ -193,8 +193,8 @@ $(document).ready(function () {
     <div class="cont" id="dlg" style="visibility: hidden;">
     <form:form methodParam="POST" modelAttribute="filterAtribute" action="filterDoc" method='POST'>
 		<center>
-				<div class="justtext">Заказчик:</div><input type='text' class="selement" name='add2' />
 				<div class="justtext">Название:</div><input type='text' class="selement" name='add1' />
+				<div class="justtext">Заказчик:</div><input type='text' class="selement" name='add2' />
 				<div class="justtext">Дата с:</div><input type='text' class="selement" name='from' />
 				<div class="justtext">Дата по:</div><input type='text' class="selement" name='to' />
 				

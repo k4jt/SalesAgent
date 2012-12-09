@@ -60,7 +60,7 @@ private JdbcTemplate jdbcTemplate;
 				} else {
 					sql.append(" WHERE ");
 				}
-				sql.append(" add1 LIKE '%").append(filter.getAdd2()).append("%' ");
+				sql.append(" add2 LIKE '%").append(filter.getAdd2()).append("%' ");
 			}
 
 			if(filter.getDocType() != null){
@@ -81,9 +81,17 @@ private JdbcTemplate jdbcTemplate;
 				sql.append(" date BETWEEN ").append(filter.getFrom()).append(" AND ").append(filter.getTo());
 			}
 			
-			
+			//if user comes without session
 			if(sql.indexOf("WHERE") != -1 && sql.indexOf("=") == -1){
 				sql = new StringBuilder(sql.substring(0, sql.indexOf("WHERE")));
+			}
+			
+			if(sql.indexOf("BETWEEN") == -1){
+				if(sql.indexOf("WHERE") != -1){
+					sql.append(" AND YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW()) AND DAY(date) = DAY(NOW())");
+				} else {
+					sql.append(" WHERE YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW()) AND DAY(date) = DAY(NOW())");
+				}
 			}
 			
 			sql.append(" ORDER BY id limit 50");
