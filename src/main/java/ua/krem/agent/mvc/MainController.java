@@ -105,58 +105,60 @@ public class MainController {
 		return model;
 	}
 	
-	@RequestMapping(value="/addItem", method = RequestMethod.GET)
-	public void addItems(@RequestParam String idAmount, HttpSession session){
+	private List<Item> getItemListFromSession(HttpSession session) {
+		List<Item> itemList = (List<Item>) session.getAttribute("itemList");
+		if(itemList == null){
+			itemList = new ArrayList<Item>();
+		}
+		return itemList;
+	}
+	
+	private Item extractItemFromIdAmountString(String idAmount){
 		String[] array = idAmount.split(" ");
-		System.out.println("hello");
-		int id = Integer.parseInt(array[0]);
+		int id = 0;
+		int amount = 0;
 		try{
-			int amount = Integer.parseInt(array[1]);
-			
-			List<Item> itemList = (List<Item>) session.getAttribute("itemList");
-			if(itemList == null){
-				System.out.println("create new itemList");
-				itemList = new ArrayList<Item>();
-			}
-			Item item = new Item();
-			item.id = id;
-			item.amount = amount;
-			if(amount == 0){
-				for(Item i : itemList){
-					if(i.id == id){
-						itemList.remove(i);
-						break;
-					}
-				}
-			}else{
-				itemList.add(item);
-			}
-			
-			session.setAttribute("itemList", itemList);
-			
-			System.out.println("ItemList contain:");
-			for(Item i : itemList){
-				System.out.println(i.id + ":" + i.amount);
-			}
-			
-			
-		}catch(NumberFormatException e){
+			id = Integer.parseInt(array[0]);
+			amount = Integer.parseInt(array[1]);
+		}catch(Exception e){
 			e.printStackTrace();
-		}catch(IndexOutOfBoundsException e){
-			e.printStackTrace();
-			List<Item> itemList = (List<Item>) session.getAttribute("itemList");
-			if(itemList != null){
-				for(Item i : itemList){
-					if(i.id == id){
-						itemList.remove(i);
-						break;
-					}
+		}
+		return new Item(id, amount);
+	}
+	
+	/**
+	 * @return true if update, false if not update
+	 */
+	private boolean updateItemIfContainsInList(List<Item> itemList, Item item){
+		boolean contains = false;
+		for(Item i : itemList){
+			if(i.id == item.id){
+				if(item.amount == 0){
+					itemList.remove(i);
+				} else {
+					i.amount = item.amount;
 				}
-				session.setAttribute("itemList", itemList);
+				contains = true;
+				break;
 			}
 		}
-		
+		return contains;
 	}
+	
+	@RequestMapping(value="/addItem", method = RequestMethod.GET)
+	public void addItems(@RequestParam String idAmount, HttpSession session){
+		
+		List<Item> itemList = getItemListFromSession(session);
+
+		Item item = extractItemFromIdAmountString(idAmount);
+			
+		if(!updateItemIfContainsInList(itemList, item)){
+			itemList.add(item);
+		}
+			
+		session.setAttribute("itemList", itemList);
+	}
+
 	
 	@RequestMapping(value="/calc", method = RequestMethod.GET)
 	 @ResponseBody public String GetShopName(@RequestParam String code) throws UnsupportedEncodingException{
@@ -192,11 +194,11 @@ public class MainController {
 	@RequestMapping(value="/filterTP", method = RequestMethod.POST)
 	public ModelAndView filteredShop(@ModelAttribute("filterAtribute") ShopFilter filter, HttpSession session){
 		ModelAndView model = new ModelAndView("choose_from_list");
-		if(filter != null){
-			System.out.println(filter.getCode());
-			System.out.println(filter.getName());
-			System.out.println(filter.getAddress());
-		}
+//		if(filter != null){
+//			System.out.println(filter.getCode());
+//			System.out.println(filter.getName());
+//			System.out.println(filter.getAddress());
+//		}
 		model.addObject("shopList", shopService.filterShop(filter));
 		
 		return model;
@@ -207,24 +209,23 @@ public class MainController {
 
 		ModelAndView model = new ModelAndView("realization");
 		
-		if(filter != null){
-			if(filter.getProdName() != null){
-				System.out.println("filter prod name: " + filter.getProdName());
-			}
-			if(filter.getBrand() != null){
-				System.out.println("filter brand: " + filter.getBrand());
-			}
-		}
-		
-		List<Brand> brandList = productService.getBrands();
-		model.addObject("brandList", brandList);
+//		if(filter != null){
+//			if(filter.getProdName() != null){
+//				System.out.println("filter prod name: " + filter.getProdName());
+//			}
+//			if(filter.getBrand() != null){
+//				System.out.println("filter brand: " + filter.getBrand());
+//			}
+//		}
+//		List<Brand> brandList = productService.getBrands();
+		model.addObject("brandList", productService.getBrands());
 		
 		List<Item> itemList = (List<Item>) session.getAttribute("itemList");
-		if(itemList != null){
-			for(Item i : itemList){
-				System.out.println(i.id + " - " + i.amount);
-			}
-		}
+//		if(itemList != null){
+//			for(Item i : itemList){
+//				System.out.println(i.id + " - " + i.amount);
+//			}
+//		}
 		
 		List<Product> list = productService.getProducts(filter, itemList);
 		model.addObject("productList", list);

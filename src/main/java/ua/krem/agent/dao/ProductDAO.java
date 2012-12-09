@@ -170,42 +170,77 @@ public class ProductDAO {
 					System.out.println("prodId = " + prodId);
 					item.id = prodId;
 					System.out.println("item.id = " + item.id);
-					
+					boolean find = false;
 					for(int i = 0; i < doc.getProdId().length; ++i){
-						Integer curProdId = Integer.parseInt(doc.getProdId()[i]);
+						Integer curProdId = null;
+						try{
+							curProdId = Integer.parseInt(doc.getProdId()[i]);
+						}catch(NumberFormatException e){
+							e.printStackTrace();
+						}
 						if(curProdId == prodId){
-							Integer curAmount = Integer.parseInt(doc.getAmount()[i]);
+							find = true;
+							Integer curAmount = null;
+							try{
+								if(doc != null && doc.getAmount() != null && doc.getAmount()[i] != null){
+									curAmount = Integer.parseInt(doc.getAmount()[i]);
+								}
+							}catch(NumberFormatException e){
+								e.printStackTrace();
+							}catch(Exception eq){
+								eq.printStackTrace();
+							}
+							
 							if(curAmount != amount){
 								toDelete.add(elemId);
-								toInsert.add(item);
+								if(curAmount != null && curAmount !=0 ){
+									item.amount = curAmount;
+									toInsert.add(item);
+								}
 							}else{
 								exist.add(prodId);
 							}
 							break;
 						}
 					}
+					if(!find){
+						toDelete.add(elemId);
+					}
+					
 				}
 			}
 			
 			
+			
+			
 			for(int i = 0; i < doc.getAmount().length; ++i){
-				Integer curProdId = Integer.parseInt(doc.getProdId()[i]);
 				boolean find = false;
-				for(Integer alreadyExistProdId : exist){
-					if(alreadyExistProdId == curProdId){
-						find = true;
-						break;
+				try{
+					Integer curProdId = Integer.parseInt(doc.getProdId()[i]);
+					for(Integer alreadyExistProdId : exist){
+						if(alreadyExistProdId == curProdId){
+							find = true;
+							break;
+						}
 					}
+					
+					if(!find){
+						if(doc.getAmount()[i] != null && !doc.getAmount()[i].equals("0") && !doc.getAmount()[i].isEmpty()){
+							try{
+								Item item = new Item();
+								item.amount = Integer.parseInt( doc.getAmount()[i]);
+								item.id = curProdId;
+								toInsert.add(item);
+							}catch(NumberFormatException e){
+								e.printStackTrace();
+							}
+						}
+					}
+				}catch(NumberFormatException e){
+					e.printStackTrace();
 				}
 				
-				if(!find){
-					if(doc.getAmount()[i] != null && !doc.getAmount()[i].isEmpty()){
-						Item item = new Item();
-						item.amount = Integer.parseInt( doc.getAmount()[i]);
-						item.id = curProdId;
-						toInsert.add(item);
-					}
-				}
+				
 			}
 			
 			
@@ -242,8 +277,9 @@ public class ProductDAO {
 				for(int i = 0; i < doc.getAmount().length; ++i){
 					if(doc.getAmount()[i] != null && !doc.getAmount()[i].isEmpty()){
 						try{
-							Integer.parseInt(doc.getAmount()[i]);
-							jdbcTemplate.update(sql, doc.getAmount()[i], doc.getId(), doc.getProdId()[i]);
+							if(Integer.parseInt(doc.getAmount()[i]) != 0){
+								jdbcTemplate.update(sql, doc.getAmount()[i], doc.getId(), doc.getProdId()[i]);
+							}
 						}catch(NumberFormatException e){
 							e.printStackTrace();
 							result = "Ошибка при сохранении";

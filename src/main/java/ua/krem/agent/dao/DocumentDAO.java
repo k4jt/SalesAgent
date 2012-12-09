@@ -171,10 +171,12 @@ public class DocumentDAO {
 				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString(), docId);
 				List<Item> itemList = new ArrayList<Item>();
 				for(Map<String, Object> m : mapList){
-					Item item = new Item();
-					item.id = (Integer)m.get("prod_id");
-					item.amount = (Integer)m.get("amount");
-					itemList.add(item);
+					if(m.get("amount") != null && !((Integer)m.get("amount")).toString().isEmpty()){
+						Item item = new Item();
+						item.id = (Integer)m.get("prod_id");
+						item.amount = (Integer)m.get("amount");
+						itemList.add(item);
+					}
 				}
 				doc.setItemList(itemList);
 				doc.setProductList( productDAO.getProducts(null, itemList) );
