@@ -31,8 +31,8 @@ public class ProductService {
 		return productDAO.getBrands();
 	}
 	
-	public void addDocument(Document doc){
-		productDAO.addDocument(doc);
+	public String addDocument(Document doc){
+		return productDAO.addDocument(doc);
 	}
 	
 }

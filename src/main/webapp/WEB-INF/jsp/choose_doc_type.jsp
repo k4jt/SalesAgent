@@ -39,13 +39,7 @@ $( document ).ready( function() {
 </script>
 
 <style>	
-.line{
-	font-size: xx-large;
-}
 
-.head_line{
-	font-size: xx-large;
-}
  </style>
 
   
@@ -56,16 +50,23 @@ $( document ).ready( function() {
 
 <body>
  <c:if test="${shop != null}">
- 	<div class="line">
+ 	<div>
  		<c:out value="${shop.code}"/>&nbsp;
  		<c:out value="${shop.name}"/>&nbsp;
  		<c:out value="${shop.address}"/>&nbsp;
  	</div>
  </c:if>
+
  
- 		<!-- div class="head_line">Выбор типа документа</div -->
  		<a href="realization" style="text-decoration: none;"><div class="menu_button">Реализация</div></a>
  		<a href="return_back" style="text-decoration: none;"><div class="menu_button">Возврат</div></a>
  		<a href="cabinet" style="text-decoration: none;"><div class="menu_button">Завершить работу с ТТ</div></a>
+<c:if test="${save_result != null}">
+	<script>
+	$(function(){
+		alert('<c:out value="${save_result}"/>');
+	});
+	</script>
+</c:if>
 </body>
 </html>

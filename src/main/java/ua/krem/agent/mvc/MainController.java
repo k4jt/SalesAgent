@@ -55,7 +55,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/procDoc", method = RequestMethod.POST)
-	public String procDoc(@ModelAttribute("atribute") Document doc, HttpSession session){
+	public ModelAndView procDoc(@ModelAttribute("atribute") Document doc, HttpSession session){
 		session.removeAttribute("itemList");
 		System.out.println("DocType: " + session.getAttribute("docType"));
 		doc.setDocType( (Integer)session.getAttribute("docTypeId")  );
@@ -69,10 +69,10 @@ public class MainController {
 			doc.setUserId(user.getId());
 			doc.setShopId(shop.getId());
 		}
+		ModelAndView model = new ModelAndView("choose_doc_type");
+		model.addObject("save_result", productService.addDocument(doc));
 		
-		productService.addDocument(doc);
-		
-		return "choose_doc_type";
+		return model;
 	}
 	
 	

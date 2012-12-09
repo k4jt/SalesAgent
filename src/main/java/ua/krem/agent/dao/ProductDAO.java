@@ -149,7 +149,8 @@ public class ProductDAO {
 		return brandList;
 	}
 	
-	public void addDocument(Document doc){
+	public String addDocument(Document doc){
+		String result = "";
 		String sql = "INSERT INTO doc (date, warehouse_id, shop_id, user_id, type) VALUES (NOW(), ?, ?, ?, ?)";
 		try{
 			if(jdbcTemplate.update(sql, 1, doc.getShopId(), doc.getUserId(), doc.getDocType()) != 0){
@@ -165,15 +166,20 @@ public class ProductDAO {
 							jdbcTemplate.update(sql, doc.getAmount()[i], doc.getId(), doc.getProdId()[i]);
 						}catch(NumberFormatException e){
 							e.printStackTrace();
+							result = "Ошибка при сохранении";
 						}
 					}
 				}
 				
+				sql = "SELECT add1 FROM doc WHERE doc_id = ?";
+				String add1 = jdbcTemplate.queryForObject(sql, String.class, doc.getId());
+				result = "Документ #" + add1 + "# c id=" + doc.getId() + " успешно сохранен!";
 			}
 			
 		}catch(DataAccessException e){
 			e.printStackTrace();
+			result = "Ошибка при сохранении";
 		}
-		
+		return result;
 	}
 }
