@@ -7,13 +7,38 @@
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
+<link href="${pageContext.request.contextPath}/css/jquery-ui.css" rel="stylesheet" media="all" />
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.min.js" ></script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-ui.min.js" ></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Выбор типа накладной</title>
 
 <script>
 $(document).ready(function () {
 	
+	$.datepicker.regional['ru'] = {
+			clearText: 'Очистить', clearStatus: '',
+			closeText: 'Закрыть', closeStatus: 'Закрыть без изменений',
+			prevText: '<Пред', prevStatus: 'Показать предыдующий месяц',
+			nextText: 'След>', nextStatus: 'Показать следующий месяц',
+			currentText: 'Текущий', currentStatus: 'Показать текущий месяц',
+			monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь',
+			'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+			monthNamesShort: ['Янв','Фев','Мар','Апр','Май','Июн',
+			'Июл','Авг','Сен','Окт','Ноя','Дек'],
+			monthStatus: 'Показать месяц', yearStatus: 'Показать год',
+			weekHeader: 'Нд', weekStatus: '',
+			dayNames: ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
+			dayNamesShort: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+			dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+			dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+			dateFormat: 'yy-mm-dd', firstDay: 1, 
+			initStatus: 'Выберите дату', isRTL: false
+	};
+    $.datepicker.setDefaults($.datepicker.regional['ru']);
+    $("#datepicker_field_1").datepicker();
+	$("#datepicker_field_2").datepicker();
 	
     $("#closebtn").click(function () {
       $("#dlg").hide('200', "swing", function () { $("#bkg").fadeOut("100"); });
@@ -99,11 +124,12 @@ $(document).ready(function () {
          minScale = 100;
 
 	     var fontSize = Math.sqrt(scaleSource) * scaleFactor; //Multiply the width of the body by the scaling factor:
-	
+	     var fontSizeDate = 0.8*Math.sqrt(scaleSource) * scaleFactor; //Multiply the width of the body by the scaling factor:
 	     if (fontSize > maxScale) fontSize = Math.sqrt(maxScale);
 	     //if (fontSize < minScale) fontSize = Math.sqrt(minScale); //Enforce the minimum and maximums
 	
 	     $("#dlg_calc, #dlg").css('font-size', fontSize + '%');
+	     $("#ui-datepicker-div").css('font-size', fontSizeDate + '%');
      }
 
      $(window).resize(function(){
@@ -114,7 +140,7 @@ $(document).ready(function () {
      setBodyScale();
  
      $("#quit").click(function(){
-    	return confirm("Вы точно хотите выйти и не выбрать документ?");
+    	return confirm("Вы точно хотите вернуться на главную страницу?");
      });
      
      
@@ -195,8 +221,8 @@ $(document).ready(function () {
 		<center>
 				<div class="justtext">Название:</div><input type='text' class="selement" name='add1' />
 				<div class="justtext">Заказчик:</div><input type='text' class="selement" name='add2' />
-				<div class="justtext">Дата с:</div><input type='text' class="selement" name='from' />
-				<div class="justtext">Дата по:</div><input type='text' class="selement" name='to' />
+				<div class="justtext">Дата с:</div><input type='text' class="selement" name='from' id='datepicker_field_1' />
+				<div class="justtext">Дата по:</div><input type='text' class="selement" name='to' id='datepicker_field_2'/>
 				
 				<div class="justtext">Тип:</div>
 				<select class="selement" name='docType'>
@@ -204,7 +230,6 @@ $(document).ready(function () {
 					<option value="0">Реализация</option>
 					<option value="1">Возврат</option>
 				</select>
-				
 				<input type="submit" class="selement" value="OK">
 		</center>
 	</form:form>

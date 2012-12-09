@@ -78,7 +78,32 @@ private JdbcTemplate jdbcTemplate;
 				} else {
 					sql.append(" WHERE ");
 				}
-				sql.append(" date BETWEEN ").append(filter.getFrom()).append(" AND ").append(filter.getTo());
+				sql.append(" date BETWEEN '").append(filter.getFrom()).append("' AND '").append(filter.getTo()).append("' ");
+			}
+			else 
+			{
+				if (filter.getFrom()!=null && !filter.getFrom().isEmpty())
+				{
+					if(sql.indexOf("WHERE") != -1){
+						sql.append(" AND ");
+					} else {
+						sql.append(" WHERE ");
+					}
+					sql.append(" date > '").append(filter.getFrom()).append("' ");
+				}
+				else
+				{
+					if (filter.getTo()!=null && !filter.getTo().isEmpty())
+					{
+						if(sql.indexOf("WHERE") != -1){
+							sql.append(" AND ");
+						} else {
+							sql.append(" WHERE ");
+						}
+						sql.append(" date < '").append(filter.getTo()).append("' ");
+					}
+				}
+				
 			}
 			
 			//if user comes without session
@@ -86,7 +111,7 @@ private JdbcTemplate jdbcTemplate;
 				sql = new StringBuilder(sql.substring(0, sql.indexOf("WHERE")));
 			}
 			
-			if(sql.indexOf("BETWEEN") == -1){
+			if(sql.indexOf("date >") == -1 && sql.indexOf("date <") == -1 && sql.indexOf("BETWEEN") == -1){
 				if(sql.indexOf("WHERE") != -1){
 					sql.append(" AND YEAR(date) = YEAR(NOW()) AND MONTH(date) = MONTH(NOW()) AND DAY(date) = DAY(NOW())");
 				} else {
