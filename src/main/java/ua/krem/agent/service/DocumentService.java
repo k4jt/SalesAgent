@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ua.krem.agent.dao.DocumentDAO;
 import ua.krem.agent.model.DocHead;
 import ua.krem.agent.model.DocHeadFilter;
+import ua.krem.agent.model.Document;
 
 @Service
 public class DocumentService {
@@ -22,6 +23,10 @@ public class DocumentService {
 
 	public List<DocHead> selectDoc(DocHeadFilter filter){
 		return documentDAO.selectDoc(filter);
+	}
+	
+	public Document getDocumentById(Integer docId){
+		return documentDAO.getDocumentById(docId);
 	}
 	
 }

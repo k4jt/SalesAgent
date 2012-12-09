@@ -38,6 +38,23 @@ public class ShopDAO {
 		}
 		return shop;
 	}
+
+	public Shop getShopById(Integer id){
+		String sql = "SELECT shop_id id, name, address, code FROM shop WHERE shop_id = ?";
+		Shop shop = new Shop();
+		try{
+			Map<String, Object> map = jdbcTemplate.queryForMap(sql, id);
+			if(map != null && !map.isEmpty()){
+				shop.setId((Integer)map.get("id"));
+				shop.setName((String)map.get("name"));
+				shop.setAddress((String)map.get("address"));
+				shop.setCode((String)map.get("code"));
+			}
+		}catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
+		}
+		return shop;
+	}
 	
 	public List<Shop> filterShop(ShopFilter filter){
 		List<Shop> shopList = new ArrayList<Shop>();

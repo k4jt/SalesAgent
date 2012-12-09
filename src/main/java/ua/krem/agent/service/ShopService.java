@@ -26,4 +26,8 @@ public class ShopService {
 	public List<Shop> filterShop(ShopFilter filter){
 		return shopDAO.filterShop(filter); 
 	}
+	
+	public Shop getShopById(Integer id){
+		return shopDAO.getShopById(id);
+	}
 }

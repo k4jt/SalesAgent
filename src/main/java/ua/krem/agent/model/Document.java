@@ -1,6 +1,7 @@
 package ua.krem.agent.model;
 
 import java.io.Serializable;
+import java.util.List;
 @SuppressWarnings("serial")
 public class Document implements Serializable{
 
@@ -15,6 +16,8 @@ public class Document implements Serializable{
 	public String[] prodId;
 	
 	public String[] amount;
+	
+	public List<Product> productList;
 
 	public String[] getAmount() {
 		return amount;
@@ -62,6 +65,14 @@ public class Document implements Serializable{
 
 	public void setDocType(Integer docType) {
 		this.docType = docType;
+	}
+
+	public List<Product> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
 	}
 	
 }

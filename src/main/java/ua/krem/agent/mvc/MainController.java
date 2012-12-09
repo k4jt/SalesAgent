@@ -224,14 +224,51 @@ public class MainController {
 	
 	
 	@RequestMapping(value="/realization", method = RequestMethod.GET)
-	public ModelAndView realization(HttpSession session){
+	public ModelAndView realization(HttpSession session, @RequestParam Integer docId){
+		if(docId != null){
+			session.setAttribute("docType", "Реализация");
+			session.setAttribute("docTypeId", 0);
+			return makeDoc(session);
+		} else {
+			return editDoc(session, docId);
+		}
+	}
+	
+	private ModelAndView editDoc(HttpSession session, Integer docId){
 		session.removeAttribute("docType");
 		session.removeAttribute("docTypeId");
-		session.setAttribute("docType", "Реализация");
-		session.setAttribute("docTypeId", 0);
-		return makeDoc(session);
+		session.removeAttribute("itemList");
+		session.removeAttribute("shop");
+		
+		
+		ModelAndView model = new ModelAndView("realization");
+		Document doc = documentService.getDocumentById(docId);
+		
+		if(doc != null){
+			session.setAttribute("docId", docId);
+			session.setAttribute("docTypeId", doc.getDocType());
+			
+			if(doc.getDocType() == 0){
+				session.setAttribute("docType", "Реализация");
+			} else {
+				session.setAttribute("docType", "Возврат");
+			}
+			
+			Shop shop = shopService.getShopById(doc.getShopId());
+			session.setAttribute("shop", shop);
+			model.addObject("productList", doc.getProductList());
+			
+			
+		}
+		
+		List<Brand> brandList = productService.getBrands();
+		model.addObject("brandList", brandList);
+		return model;
 	}
+	
 	private ModelAndView makeDoc(HttpSession session){
+		session.removeAttribute("docType");
+		session.removeAttribute("docTypeId");
 		System.out.println(session.getAttribute("docType"));
 		System.out.println(session.getAttribute("docTypeId"));
 		session.removeAttribute("itemList");
@@ -251,8 +288,6 @@ public class MainController {
 
 	@RequestMapping(value="/return_back", method = RequestMethod.GET)
 	public ModelAndView returnBack(HttpSession session){
-		session.removeAttribute("docType");
-		session.removeAttribute("docTypeId");
 		session.setAttribute("docType", "Возврат");
 		session.setAttribute("docTypeId", 1);
 		return makeDoc(session);

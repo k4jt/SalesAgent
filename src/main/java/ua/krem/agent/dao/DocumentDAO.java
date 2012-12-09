@@ -13,15 +13,19 @@ import org.springframework.stereotype.Repository;
 
 import ua.krem.agent.model.DocHead;
 import ua.krem.agent.model.DocHeadFilter;
+import ua.krem.agent.model.Document;
+import ua.krem.agent.model.Item;
 
 @Repository
 public class DocumentDAO {
 
-private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
+	private ProductDAO productDAO;
 	
 	@Inject
-	public DocumentDAO(JdbcTemplate jdbcTemplate){
+	public DocumentDAO(JdbcTemplate jdbcTemplate, ProductDAO productDAO){
 		this.jdbcTemplate = jdbcTemplate;
+		this.productDAO = productDAO;
 	}
 	
 	public List<DocHead> selectDoc(DocHeadFilter filter){
@@ -78,7 +82,7 @@ private JdbcTemplate jdbcTemplate;
 				} else {
 					sql.append(" WHERE ");
 				}
-				sql.append(" date BETWEEN ").append(filter.getFrom()).append(" AND ").append(filter.getTo());
+				sql.append(" date BETWEEN '").append(filter.getFrom()).append("' AND '").append(filter.getTo()).append("' ");
 			}
 			
 			//if user comes without session
@@ -125,6 +129,36 @@ private JdbcTemplate jdbcTemplate;
 			}
 		}
 		return docHead;
+	}
+	
+	public Document getDocumentById(Integer docId){
+		String sql = "SELECT shop_id, type FROM doc WHERE doc_id = ?";
+		Document doc = new Document();
+		doc.setId(docId);
+		try{
+			Map<String, Object> map = jdbcTemplate.queryForMap(sql, docId);
+			if(map != null && !map.isEmpty()){
+				doc.setShopId((Integer)map.get("shop_id"));
+				doc.setDocType((Integer)map.get("type"));
+				
+				sql = "SELECT prod_id, amount FROM doc_element WHERE doc_id = ?";
+				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
+				List<Item> itemList = new ArrayList<Item>();
+				for(Map<String, Object> m : mapList){
+					Item item = new Item();
+					item.id = (Integer)m.get("prod_id");
+					item.amount = (Integer)m.get("amount");
+					itemList.add(item);
+				}
+				
+				doc.setProductList( productDAO.getProducts(null, itemList) );
+				
+			}
+		}catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
+		}
+		
+		return doc;
 	}
 	
 }

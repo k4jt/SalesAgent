@@ -155,6 +155,9 @@ $(document).ready(function () {
  		<c:out value="${shop.name}"/>&nbsp;
  		<c:out value="${shop.address}"/>&nbsp;
  		<br>[Тип накладной]: <c:out value="${docType}"/>
+ 		<c:if test="${docId != null }">
+ 			&nbsp;&nbsp;[Редактирование]
+ 		</c:if>
  	</div>
  </c:if>
 

@@ -38,21 +38,21 @@ $(document).ready(function () {
  
 	 $(".test_click").click(function(){
 		var id = $(this).children().get(1).innerHTML;
-		var name = $(this).children().get(2).innerHTML;
-		var	address = $(this).children().get(3).innerHTML;
+		/* var name = $(this).children().get(2).innerHTML;
+		var	address = $(this).children().get(3).innerHTML; */
 
 		if(confirm("Вы действительно хотите выбрать документ #" + name + "# ?")){
-			
-			$.ajax({
+			window.location.replace("realization?docId=" + id);
+			/* $.ajax({
 	  		    url: "selectShop.html",
 	      		type: "GET",
 	      		data: ({code: id}),
 	      		dataType: "text",
 	      		success: function(){
-					window.location.replace("choose_doc_type");
+					window.location.replace("realization?docId=" + id);
 	      			}
 	   			}
-	  		);
+	  		); */
 			
 			
 		} else {
@@ -67,12 +67,9 @@ $(document).ready(function () {
     	 $(".test").children(".selected").val(amount);
 		document.getElementById('calc_output').value = '';
 		
-		
 		var str = $(".test").children(".selected").parent().parent().parent().children().get(0).innerHTML;
 		var prodId = $(".test").children(".selected").parent().parent().parent().children().get(0).innerHTML.substring(str.indexOf("value=") + 7);
 		prodId = prodId.substring(0, prodId.length - 2);
-		/* alert("id = " + prodId + " amount = " + amount); */
-		
 		var prodName = $(".test").children(".selected").parent().parent().parent().children().get(1).innerHTML;
 		var output = prodId + " " + amount;
 		
