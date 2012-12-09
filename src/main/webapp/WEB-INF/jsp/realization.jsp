@@ -110,11 +110,11 @@ $(document).ready(function () {
     	return confirm("Вы точно хотите выйти и не сохранить документ?");
      });
      
-     
-     
- 
-    
 });
+
+	function save_doc(){
+		 return confirm("Вы точно хотите сохранить документ и завершить работу с ним?");
+	}
 
 </script>
 <style>
@@ -160,7 +160,7 @@ $(document).ready(function () {
 
 <a href="#" id="filter"><center><div class="filter_button">Фильтр</div></center></a>
 
-<form:form methodParam="POST" modelAttribute="atribute" action="procDoc" method='POST'>
+<form:form methodParam="POST" modelAttribute="atribute" action="procDoc" method='POST' onSubmit="return save_doc();">
 	<table border="1" width="100%">
 	<tr>
 	<th style="display: none;">Id</th>
@@ -176,7 +176,7 @@ $(document).ready(function () {
 		</tr>
 	</c:forEach>
 	</table>
-	<input type="submit" class="filter_button" value="Сохранить документ" />
+	<input type="submit" id="#save_doc" class="filter_button" value="Сохранить документ"  />
 	<a href="choose_doc_type" id="quit"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
 </form:form>
 
