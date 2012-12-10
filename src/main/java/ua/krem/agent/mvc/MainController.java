@@ -51,6 +51,9 @@ public class MainController {
 
 	@RequestMapping(value="/choose_by_code", method = RequestMethod.GET)
 	public String chooseByCode(){
+		String s = "Выв ыа вии";
+		String a ="";
+		a=toAjaxString(s);
 		return "choose_by_code";
 	}
 
@@ -158,7 +161,22 @@ public class MainController {
 			
 		session.setAttribute("itemList", itemList);
 	}
-
+	
+	//for RequestMapping '/calc'!! Transforms String to ASCII-String (AAA->65 65 65) 
+	public String toAjaxString(String forCode)
+	{
+		StringBuilder ajaxStr = new StringBuilder();
+		int [] bArr = new int[forCode.length()];
+		for(int i=0; i<bArr.length; i++)
+		{
+			bArr[i]=(int)forCode.charAt(i);
+		}
+		for(int i=0; i<bArr.length; i++)
+		{
+			ajaxStr.append(String.valueOf(bArr[i])+" ");
+		}
+		return ajaxStr.toString();
+	}
 	
 	@RequestMapping(value="/calc", method = RequestMethod.GET)
 	 @ResponseBody public String GetShopName(@RequestParam String code) throws UnsupportedEncodingException{
@@ -167,9 +185,11 @@ public class MainController {
 		System.out.println(shop.toString());
 		String rez;
 		if(shop.getName() != null && !shop.getName().isEmpty()){
-			rez = new String(shop.toString().getBytes("ISO-8859-1"),"UTF-8");
+			//rez = new String(shop.toString().getBytes("ISO-8859-1"),"UTF-8");
+			//rez += new String(shop.toString().getBytes("Windows-1251"),"UTF-8");
+				rez = toAjaxString(shop.toString());
 		}else{
-			rez = new String("Торговая точка не найдена!".getBytes("ISO-8859-1"),"UTF-8");
+				rez = toAjaxString("Торговая точка не найдена!");
 			}
 		return rez;
 	}

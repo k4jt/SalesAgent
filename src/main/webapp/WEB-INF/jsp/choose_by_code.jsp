@@ -12,20 +12,29 @@
     $(document).ready(function () {
       $("#closebtn").click(function () {
         //document.getElementById('code').value =  document.getElementById('calc_output').value;
-		$.ajax({
+		if($("#errorMsg").length>0)
+		{
+			$("#errorMsg").css("display","none");
+		}
+        $.ajax({
   		    url: "calc.html",
+  		    async: false,
       		type: "GET",
       		data: ({code: document.getElementById('calc_output').value}),
       		dataType: "text",
-      		contentType: "text/html; charset=iso-8859-1",
+      		//contentType: "text/html; charset=iso-8859-1",
       		
       		success: function(msg){
-         			/* alert("succ" + msg);
-         			alert("succ" + encodeURIComponent(msg)); */
-         			document.getElementById('code').value = msg;
-         			if(msg.length() > 26){
-         				$("#errorMsg").addStyle("hideErrBlock");
+         			var arr = msg.split(' ');
+         			var rez = "";
+         			for (var i = 0; i < arr.length; i++) {
+         			   rez += String.fromCharCode(arr[i]);
          			}
+         			document.getElementById('code').value = rez;
+         			//document.getElementById('code').value = "Я русская строка";
+         			//if(msg.length() > 26){
+         			//	
+         			//}
       			}
    			}
   		)
