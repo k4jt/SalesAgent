@@ -10,6 +10,7 @@ import ua.krem.agent.dao.DocumentDAO;
 import ua.krem.agent.model.DocHead;
 import ua.krem.agent.model.DocHeadFilter;
 import ua.krem.agent.model.Document;
+import ua.krem.agent.model.DocList;
 
 @Service
 public class DocumentService {
@@ -25,6 +26,10 @@ public class DocumentService {
 		return documentDAO.selectDoc(filter);
 	}
 	
+	public String exportDocuments(DocList docs, String uid, String path)
+	{
+		return documentDAO.exportDocuments(docs, uid, path);
+	}
 	public Document getDocumentById(Integer docId){
 		return documentDAO.getDocumentById(docId);
 	}

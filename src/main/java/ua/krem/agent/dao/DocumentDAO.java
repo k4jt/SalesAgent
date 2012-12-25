@@ -1,5 +1,6 @@
 package ua.krem.agent.dao;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import ua.krem.agent.model.DocHead;
 import ua.krem.agent.model.DocHeadFilter;
+import ua.krem.agent.model.DocList;
 import ua.krem.agent.model.Document;
 import ua.krem.agent.model.Item;
 
@@ -187,6 +189,46 @@ public class DocumentDAO {
 		}
 		
 		return doc;
+	}
+
+	public String exportDocuments(DocList docs, String uid, String path) {
+		String result = "Документы успешно экспортированы!";
+		String sql = "select CONCAT_WS(\"; \", X.doc_id, X.date, X.type, X.shop_id, Y.code, Y.name) AS Col from doc X, shop Y WHERE X.doc_id = ? AND X.shop_id = Y.shop_id";
+		String sqlProd = "select CONCAT_WS(\"; \", X.doc_id, Y.code, Y.name,  X.amount) AS Col from doc_element X, product Y where X.doc_id=? AND Y.prod_id=X.prod_id";
+		int[] id = docs.getDocId();
+		int[] flag = docs.getChecked();	
+		if(flag.length==0) return "Ошибка экспорта: ничего не было выбрано!"; 
+		try{
+			FileWriter rfile = new FileWriter(path + "export_doc_heads_"+ uid +".csv");
+			FileWriter prodfile = new FileWriter(path + "export_doc_elements_"+ uid +".csv");
+			rfile.write("ID; Date; Type; Shop_ID; Shop_Code; Shop_Name \n");
+			prodfile.write("ID; ProdCode; ProdName; Amount \n");
+			for(int i=0; i<flag.length;i++)
+			{
+				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString(), id[i]);
+				List<Map<String, Object>> mapListProd = jdbcTemplate.queryForList(sqlProd.toString(), id[i]);
+				rfile.write(mapList.get(0).get("Col").toString());
+				rfile.write("\n");
+				for(Map<String, Object> el : mapListProd)
+				{
+					prodfile.write(el.get("Col").toString());
+					prodfile.write("\n");
+				}
+			}
+			System.out.println(path);
+			rfile.close(); //Список документов
+			prodfile.close(); //Список продуктов
+		}
+		catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
+			return "Ошибка экпорта!";
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return "Ошибка экпорта!";
+		}
+		return result;
 	}
 	
 }

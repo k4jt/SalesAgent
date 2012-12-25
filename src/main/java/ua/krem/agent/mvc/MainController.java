@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.krem.agent.model.Brand;
 import ua.krem.agent.model.Code;
 import ua.krem.agent.model.DocHeadFilter;
+import ua.krem.agent.model.DocList;
 import ua.krem.agent.model.Document;
 import ua.krem.agent.model.Item;
 import ua.krem.agent.model.Product;
@@ -51,12 +52,15 @@ public class MainController {
 
 	@RequestMapping(value="/choose_by_code", method = RequestMethod.GET)
 	public String chooseByCode(){
-		String s = "Выв ыа вии";
 		String a ="";
-		a=toAjaxString(s);
 		return "choose_by_code";
 	}
-
+	
+	@RequestMapping(value="/sync_type", method = RequestMethod.GET)
+	public String synctype(){
+		return "sync_type";
+	}
+	
 	@RequestMapping(value="/procDoc", method = RequestMethod.POST)
 	public ModelAndView procDoc(@ModelAttribute("atribute") Document doc, HttpSession session){
 		ModelAndView model = null;
@@ -89,6 +93,21 @@ public class MainController {
 		return model;
 	}
 	
+	@RequestMapping(value="/procExport", method = RequestMethod.POST)
+	public ModelAndView procExport(@ModelAttribute("atribute") DocList docs, HttpSession session){
+		ModelAndView model = null;
+		User user = (User)session.getAttribute("user");
+		model = new ModelAndView("cabinet");
+		if(docs != null)
+		{
+		  model.addObject("exp_result", documentService.exportDocuments(docs, user.getId().toString(), session.getServletContext().getRealPath("/")));
+		}
+		else
+		{
+			model.addObject("exp_result", "Для экспорта не было выбрано ни одного документа!");
+		}
+		return model;
+	}
 	
 	@RequestMapping(value="/choose_by_code", method = RequestMethod.POST)
 	public ModelAndView chooseTpByCode(@ModelAttribute("atribute") Code code, HttpSession session){
@@ -374,6 +393,18 @@ public class MainController {
 		
 		return model;
 	}
+	@RequestMapping(value="/export", method=RequestMethod.GET)
+	public ModelAndView showExportDocument(HttpSession session){
+		ModelAndView model = new ModelAndView("export");
+		User user = (User)session.getAttribute("user");
+		DocHeadFilter filter = new DocHeadFilter();
+		if(user != null){
+			filter.setUserId(user.getId());
+		}
+		model.addObject("docList", documentService.selectDoc(filter));
+		
+		return model;
+	}
 	
 	@RequestMapping(value="/filterDoc", method = RequestMethod.POST)
 	public ModelAndView filtereDoc(@ModelAttribute("filterAtribute") DocHeadFilter filter, HttpSession session){
@@ -384,6 +415,19 @@ public class MainController {
 			filter.setUserId(user.getId());
 		}
 		model.addObject("shopList", documentService.selectDoc(filter));
+		
+		return model;
+	}
+	
+	@RequestMapping(value="/filterExportDoc", method = RequestMethod.POST)
+	public ModelAndView filterExpDoc(@ModelAttribute("filterAtribute") DocHeadFilter filter, HttpSession session){
+		ModelAndView model = new ModelAndView("export");
+		User user = (User)session.getAttribute("user");
+		System.out.println("user = " + user);
+		if(user != null){
+			filter.setUserId(user.getId());
+		}
+		model.addObject("docList", documentService.selectDoc(filter));
 		
 		return model;
 	}

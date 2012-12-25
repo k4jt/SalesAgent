@@ -1,14 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Синхронизация</title>
 <script type="text/javascript" charset="utf-8">
 
 $( document ).ready( function() {
@@ -36,15 +37,21 @@ $( document ).ready( function() {
     setBodyScale();
 });
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Cabinet</title>
 
+<style>	
+
+ </style>
+
+  
+  
+  
+  
 </head>
+
 <body>
-	<a href="tasks_with_tp" style="text-decoration: none;"><div class="menu_button">Работа с ТТ</div></a>
-	<a href="documents" style="text-decoration: none;"><div class="menu_button">Документы</div></a>
-	<a href="sync_type" style="text-decoration: none;"><div class="menu_button">Синхронизация</div></a>
-	<a href="reports" style="text-decoration: none;"><div class="menu_button">Отчеты</div></a>
-	
+ 		<a href="import" style="text-decoration: none;"><div class="menu_button">Загрузка</div></a>
+ 		<a href="export" style="text-decoration: none;"><div class="menu_button">Выгрузка</div></a>
+ 		<a href="cabinet" style="text-decoration: none;"><div class="menu_button">Выйти в главное меню</div></a>
+
 </body>
 </html>
