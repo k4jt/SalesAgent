@@ -28,6 +28,7 @@ public class ProductDAO {
 
 	public List<Product> getProducts(ProductFilter filter, List<Item> itemListOriginal){
 		boolean cutTail = filter == null && itemListOriginal != null;
+		System.out.println("\nSTART ITEMLIST CHNGIN!\n");
 		List<Item> itemList = null;
 		if(itemListOriginal != null){
 			System.out.println("all ids");
@@ -39,10 +40,11 @@ public class ProductDAO {
 		}
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT x.prod_id id, x.name AS PName, x.code PCode, y.name GName, z.name SGName, q.name BName ");
+		/*sql.append("SELECT x.prod_id id, x.name AS PName, x.code PCode, y.name GName, z.name SGName, q.name BName ");
 		sql.append("FROM product_group y, counteragent q, product x ");
 		sql.append("LEFT OUTER JOIN  product_sub_group z ON x.sub_group_id=z.sub_group_id ");
-		sql.append("WHERE x.group_id= y.group_id And x.brand_id=q.counteragent_id ");
+		sql.append("WHERE x.group_id= y.group_id And x.brand_id=q.counteragent_id ");*/
+		sql.append("SELECT x.prod_id id, x.name AS PName, x.code PCode, q.name BName FROM counteragent q, product x WHERE x.brand_id=q.counteragent_id ");
 		if(filter != null){
 			if(filter.getProdName() != null && !filter.getProdName().trim().isEmpty()){
 				sql.append(" AND x.name LIKE '%").append(filter.getProdName()).append("%' ");
@@ -52,6 +54,7 @@ public class ProductDAO {
 				sql.append(" AND q.counteragent_id = ").append(filter.getBrand());
 			}
 		}
+		//sql.append(" limit 20");
 		System.out.println(sql.toString());
 		List<Product> productList = new ArrayList<Product>();
 		List<Product> result = new ArrayList<Product>();
@@ -69,8 +72,8 @@ public class ProductDAO {
 					item.setId((Integer) elem.get("id"));
 					item.setName((String) elem.get("PName"));
 					item.setCode((String) elem.get("PCode"));
-					item.setGroup((String) elem.get("GName"));
-					item.setSubgroup((String) elem.get("SGName"));
+					item.setGroup("");
+					item.setSubgroup("");
 					item.setBrand((String) elem.get("BName"));
 					if(itemList != null && !itemList.isEmpty()){
 						for(int j = 0; j < itemList.size(); ++j){
@@ -151,9 +154,12 @@ public class ProductDAO {
 		return brandList;
 	}
 	
-	public String editDocument(Document doc){
+	public String editDocument(Document doc, String docDate){
 		String result = null;
-		
+		//UPDATING DOC HEAD
+		String sqlhead = "UPDATE doc SET date='"+ docDate+ "', type1="+ doc.getDocType1() +" WHERE doc.doc_id=?";
+		jdbcTemplate.update(sqlhead,doc.getId());
+		//FIND LISTS
 		String sql = "SELECT doc_element_id, prod_id, amount FROM doc_element WHERE doc_id = ?";
 		List<Integer> toDelete = new ArrayList<Integer>();
 		List<Integer> exist = new ArrayList<Integer>();
@@ -254,47 +260,58 @@ public class ProductDAO {
 				jdbcTemplate.update(sql, item.amount, doc.getId(), item.id);
 			}
 			
-			result = "Сохранение прошло успешно";
+			result = "Документ успешно сохранен";
 			
 		}catch(EmptyResultDataAccessException e){
 			e.printStackTrace();
-			result = "Ощибка";
+			result = "Ошибка при сохранении документа";
 		}
 		
 		return result;
 	}
 	
-	public String addDocument(Document doc){
-		String result = "";
-		String sql = "INSERT INTO doc (date, warehouse_id, shop_id, user_id, type) VALUES (NOW(), ?, ?, ?, ?)";
-		try{
-			if(jdbcTemplate.update(sql, 1, doc.getShopId(), doc.getUserId(), doc.getDocType()) != 0){
-				
-				sql = "SELECT max(doc_id) id FROM doc";
-				doc.setId((Integer) jdbcTemplate.queryForInt(sql));
-				
-				sql = "INSERT INTO doc_element (amount, doc_id, prod_id) VALUES (?, ?, ?)";
-				for(int i = 0; i < doc.getAmount().length; ++i){
-					if(doc.getAmount()[i] != null && !doc.getAmount()[i].isEmpty()){
-						try{
-							if(Integer.parseInt(doc.getAmount()[i]) != 0){
-								jdbcTemplate.update(sql, doc.getAmount()[i], doc.getId(), doc.getProdId()[i]);
+	public String addDocument(Document doc, String docDate, Integer docChang){
+		String result = "Ошибка";
+		int flag = 2;
+		String sql ="";
+		while(flag != 0)
+		{
+			sql = "INSERT INTO doc (date, warehouse_id, shop_id, user_id, type, type1) VALUES ('"+docDate+"', ?, ?, ?, ?, ?)";
+			flag=flag-1;
+			try{
+				if(jdbcTemplate.update(sql, 1, doc.getShopId(), doc.getUserId(), doc.getDocType(), doc.getDocType1()) != 0){
+					
+					sql = "SELECT max(doc_id) id FROM doc";
+					doc.setId((Integer) jdbcTemplate.queryForInt(sql));
+					
+					sql = "INSERT INTO doc_element (amount, doc_id, prod_id) VALUES (?, ?, ?)";
+					for(int i = 0; i < doc.getAmount().length; ++i){
+						if(doc.getAmount()[i] != null && !doc.getAmount()[i].isEmpty()){
+							try{
+								if(Integer.parseInt(doc.getAmount()[i]) != 0){
+									jdbcTemplate.update(sql, doc.getAmount()[i], doc.getId(), doc.getProdId()[i]);
+								}
+							}catch(NumberFormatException e){
+								e.printStackTrace();
+								result = "Ошибка при сохранении документа";
 							}
-						}catch(NumberFormatException e){
-							e.printStackTrace();
-							result = "Ошибка при сохранении";
 						}
 					}
+					result = "Документ успешно сохранен";
 				}
 				
-				sql = "SELECT add1 FROM doc WHERE doc_id = ?";
-				String add1 = jdbcTemplate.queryForObject(sql, String.class, doc.getId());
-				result = "Документ #" + add1 + "# c id=" + doc.getId() + " успешно сохранен!";
+			}catch(DataAccessException e){
+				e.printStackTrace();
+				result = "Ошибка при сохранении документа";
 			}
-			
-		}catch(DataAccessException e){
-			e.printStackTrace();
-			result = "Ошибка при сохранении";
+
+			if(docChang==1){
+				doc.setDocType(0);
+				doc.setDocType1(1);
+			}
+			else{
+				flag=0;		
+			}
 		}
 		return result;
 	}

@@ -37,22 +37,28 @@ public class LoginController {
 		return "cabinet";
 		
 	}
-	
+	@RequestMapping(value={"/pickdocdate"}, method = RequestMethod.GET)
+	public String pickdocdate()
+	{
+		return "pickdocdate";
+		
+	}
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginning(@ModelAttribute("atribute") LoginData loginData, HttpSession session){
 		ModelAndView model = null;
 		User user = service.getUser(loginData.getUsername());
 		if(user.getPass().equals(loginData.getPassword()) && user.getPass() != null && !user.getPass().isEmpty()){
-			model = new ModelAndView("cabinet");
+			model = new ModelAndView("pickdocdate");
 			session.setAttribute("user", user);
+			System.out.println("Go to pickdocdate!");
 		}else{
 			model = new ModelAndView("login");
 			model.addObject("invalidUser", "Неверный логин или пароль");
 			model.addObject("user_login", loginData.getUsername());
 			session.removeAttribute("user");
+			System.out.println("Go to login!");
 		}
 		System.out.println("L user = " + user);
-		//model.addObject("user", user);
 		return model;
 	}
 	

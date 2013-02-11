@@ -7,250 +7,85 @@
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
-<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<link href="${pageContext.request.contextPath}/css/jquery.mobile.min.css" rel="stylesheet" media="all" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Выбор типа накладной</title>
-
-<script>
-$(document).ready(function () {
-	
-	
-    $("#closebtn").click(function () {
-      $("#dlg").hide('200', "swing", function () { $("#bkg").fadeOut("100"); });
-    });
-    $("#closebtn_simple").click(function () {
-      $("#dlg_calc").hide('200', "swing", function () { $("#bkg_calc").fadeOut("100"); });
-    });
-    
-    
-    $("#filter").click(function () {
-      if (document.getElementById('bkg').style.visibility == 'hidden') {
-        document.getElementById('bkg').style.visibility = '';
-        $("#bkg").hide();
-      }
-      if (document.getElementById('dlg').style.visibility == 'hidden') {
-        document.getElementById('dlg').style.visibility = '';
-        $("#dlg").hide();
-      }
-      $("#bkg").fadeIn(100, "linear", function () { $("#dlg").show(200, "swing"); });
-    });
-        
- 
-	 $(".test_click").click(function(){
-		var id = $(this).children().get(1).innerHTML;
-		var name = $(this).children().get(2).innerHTML;
-		var	address = $(this).children().get(3).innerHTML;
-
-		if(confirm("Вы действительно хотите выбрать TT #" + name + "# ?")){
-			
-			$.ajax({
-	  		    url: "selectShop.html",
-	      		type: "GET",
-	      		data: ({code: id}),
-	      		dataType: "text",
-	      		success: function(){
-					window.location.replace("choose_doc_type");
-	      			}
-	   			}
-	  		);
-			
-			
-		} else {
-			return false;
-		}
-		
-	 });
- 
- 
-     $("#closebtn_calc").click(function () {
-    	 var amount = $("#calc_output").val();
-    	 $(".test").children(".selected").val(amount);
-		document.getElementById('calc_output').value = '';
-		
-		
-		var str = $(".test").children(".selected").parent().parent().parent().children().get(0).innerHTML;
-		var prodId = $(".test").children(".selected").parent().parent().parent().children().get(0).innerHTML.substring(str.indexOf("value=") + 7);
-		prodId = prodId.substring(0, prodId.length - 2);
-		/* alert("id = " + prodId + " amount = " + amount); */
-		
-		var prodName = $(".test").children(".selected").parent().parent().parent().children().get(1).innerHTML;
-		var output = prodId + " " + amount;
-		
-		$.ajax({
-  		    url: "addItem.html",
-      		type: "GET",
-      		data: ({idAmount: output}),
-      		dataType: "text"
-   			}
-  		);
-		
-		
-		
-       $("#dlg_calc").hide('100', "swing", function () { $("#bkg_calc").fadeOut("200"); });
-     });
- 
- 
-     var $body = $('body'); //Cache this for performance
-
-     var setBodyScale = function() {
-    	 var scaleFactor = 0.3,
-         scaleSource = $(window).height()*$(window).width(),
-         maxScale = 3600,
-         minScale = 100;
-
-	     var fontSize = Math.sqrt(scaleSource) * scaleFactor; //Multiply the width of the body by the scaling factor:
-	
-	     if (fontSize > maxScale) fontSize = Math.sqrt(maxScale);
-	     //if (fontSize < minScale) fontSize = Math.sqrt(minScale); //Enforce the minimum and maximums
-	
-	     $("#dlg_calc, #dlg").css('font-size', fontSize + '%');
-     }
-
-     $(window).resize(function(){
-         setBodyScale();
-     });
-
-     //Fire it when the page first loads:
-     setBodyScale();
- 
-     $("#quit").click(function(){
-    	return confirm("Вы точно хотите выйти и не выбрать ТТ?");
-     });
-     
-     
-     
- 
-    
-});
-
-</script>
-<style>
-	.filter_button{
-		float: right;
-		width: 31%;
-		font-size: larger;
-		text-align: center;
-		border-radius: 10px;
-		background-color: #666;
-		color: white;
-		padding: 1% 0;
-		margin-bottom: 1%;
-		font-family: Times New Roman; 
-	}
-	
-	.selected{}
-	.amount{
-		width: 99%;
-	}
-	.closebtn_simple{
-		text-align: right;
-		padding: 0.5% 3%;
-		cursor: pointer;
-	}
-	.test{}
-
-	.test_click{
-		cursor: pointer;
-	}
-	
-	.line{
-		float: left;
-	}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Выбор ТТ из списка</title>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.mobile.min.js" ></script>
 </head>
 <body>
 
-
-<a href="#" id="filter"><center><div class="filter_button">Фильтр</div></center></a>
-
-<form:form methodParam="POST" modelAttribute="atribute" action="#" method='POST'>
-	<table border="1" width="100%">
-	<tr>
-	<th style="display: none;">Id</th>
-	<th>Код</th>
-	<th>Название точки</th>
-	<th>Адрес</th>
+<div data-role="page" id="chooseFromList_Page" data-url="/choose_from_list">
 	
-	</tr>
-	<c:forEach var="row" items="${shopList}">
-		<tr class="test_click">
-			<td style="display: none;"><input type="text" name="shopId" value='<c:out value="${row.id}"/>' /></td>
-			<td><c:out value="${row.code}"/></td>
-			<td><c:out value="${row.name}"/></td>
-			<td><c:out value="${row.address}"/></td>
+   	<div data-role="header">
+		<h1>Выбор ТТ из списка</h1>
+   	</div>
+
+	<a href="#popupFilter"  data-overlay-theme="a" data-rel="popup" id="filter" style="text-decoration:none;" data-position-to="window"><input type="button" data-theme="b" name="FilterBtn" id="FilterBtn" readonly="readonly" value="Фильтр"/></a>
+	
+	<form:form methodParam="POST" modelAttribute="atribute" action="#" method='POST'>
+		<table border="1" width="100%">
+		<tr>
+			<th style="display: none;">Id</th>
+			<th>Код</th>
+			<th>Название точки</th>
+			<th>Адрес</th>
 		</tr>
-	</c:forEach>
-	</table>
-	<a href="cabinet" id="quit"><div class="filter_button" style="float: left; margin-top: 5px;">Выйти</div></a>
-</form:form>
-
-
-
-<div class="blockbkg" id="bkg" style="visibility: hidden;">
-    <div class="closebtn_simple" title="Закрыть" id="closebtn" color="red">[отмена]</div>
-    <div class="cont" id="dlg" style="visibility: hidden;">
-    <form:form methodParam="POST" modelAttribute="filterAtribute" action="filterTP" method='POST'>
-		<center>
-				<div class="justtext">Код:</div><input type='text' class="selement" name='code' />
-				<div class="justtext">Название:</div><input type='text' class="selement" name='name' />
-				<div class="justtext">Адрес:</div><input type='text' class="selement" name='address' />
-				
-				<input type="submit" class="selement" value="OK">
-		</center>
+		<c:forEach var="row" items="${shopList}">
+			<tr id="trow_cfl" class="test" style="cursor:pointer">
+				<td style="display: none;"><input type="text" name="shopId" value='<c:out value="${row.id}"/>' /></td>
+				<td><c:out value="${row.code}"/></td>
+				<td><c:out value="${row.name}"/></td>
+				<td><c:out value="${row.address}"/></td>
+			</tr>
+		</c:forEach>
+		</table>
+		<a href="#popupClose"  data-rel="popup" id="quit_real" data-position-to="window" style="text-decoration: none;"><input type="button" data-theme="a" value="Назад"/></a>
 	</form:form>
-    
+	
+	
+	<div data-role="popup" id="popupFilter" class="ui-content" data-overlay-theme="a">
+		<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Закрыть</a>
+	    <form:form methodParam="POST" modelAttribute="filterAtribute" action="filterTP" method='POST'>
+			<center>
+					<label for="code">Код:</label>
+					<input type="text" name="code" />
+					<label for="name">Название:</label>
+					<input type="text" name="name" />
+					<label for="address">Адрес:</label>
+					<input type="text" name="address" />
+					<input type="submit" data-theme="b" value="OK">
+			</center>
+		</form:form>
+	</div>
+	
+	<div data-role="popup" id="popupClose" data-overlay-theme="a" data-theme="c" class="ui-corner-all">
+			<div data-role="header" data-theme="a" class="ui-corner-top">
+				<h1>Покинуть страницу?</h1>
+			</div>
+			<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+				<h3 class="ui-title">Несохраненные данные будут утеряны</h3>
+				<center>
+				  <a href="/tasks_with_tp" data-role="button" data-inline="true"  data-theme="b">Ок</a>
+				  <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Отмена</a>
+				</center>      
+			</div>
     </div>
- </div>  
-  
-
-
-
-<%-- 
-  <div class="blockbkg" id="bkg_calc" style="visibility: hidden;">
-      <div class="closebtn_simple" title="Закрыть" id="closebtn_simple" color="red">[отмена]</div>
-    <div class="cont" id="dlg_calc" style="visibility: hidden;">
-<form name="Calc">  
-<TABLE width="100%" style="padding: 0% 4%;">
-<tr><td colspan="4"><p id="productName" style="font-size: smaller;"/></td></tr>
-<TR>
-<TD colspan="3">
-<INPUT TYPE="text"   NAME="Input" id="calc_output" readonly="readonly" style="width: 100%; height: 100%; font-size: larger;">
-</TD>
-<td><center><div class="closebtn" title="ОК" id="closebtn_calc" color="red">ОК</div></center></td>
-</TR>
-<TR>
-<TD><INPUT class="calc_but" TYPE="button" NAME="one"   VALUE="  1  " OnClick="Calc.Input.value += '1'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="two"   VALUE="  2  " OnCLick="Calc.Input.value += '2'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="three" VALUE="  3  " OnClick="Calc.Input.value += '3'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="plus"  VALUE="  +  " OnClick="Calc.Input.value += ' + '"></td>
-</tr>
-<tr>
-<td><INPUT class="calc_but" TYPE="button" NAME="four"  VALUE="  4  " OnClick="Calc.Input.value += '4'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="five"  VALUE="  5  " OnCLick="Calc.Input.value += '5'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="six"   VALUE="  6  " OnClick="Calc.Input.value += '6'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="minus" VALUE="  -  " OnClick="Calc.Input.value += ' - '"></td>
-</tr>
-<tr>
-<td><INPUT class="calc_but" TYPE="button" NAME="seven" VALUE="  7  " OnClick="Calc.Input.value += '7'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="eight" VALUE="  8  " OnCLick="Calc.Input.value += '8'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="nine"  VALUE="  9  " OnClick="Calc.Input.value += '9'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="times" VALUE="  x  " OnClick="Calc.Input.value += ' * '"></td>
-</tr>
-<tr>
-<td><INPUT class="calc_but" TYPE="button" NAME="clear" VALUE="  c  " OnClick="Calc.Input.value = ''"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="zero"  VALUE="  0  " OnClick="Calc.Input.value += '0'"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="DoIt"  VALUE="  =  " OnClick="Calc.Input.value = eval(Calc.Input.value)"></td>
-<td><INPUT class="calc_but" TYPE="button" NAME="div"   VALUE="  /  " OnClick="Calc.Input.value += ' / '"></td>
-</tr>
-</TABLE></form>
-      
-      
-    </div>
-  </div>
-
- --%>
-
-
-
+	
+	<div data-role="popup" id="popupGoEdit" data-overlay-theme="a" data-theme="c" class="ui-corner-all">
+			<div data-role="header" data-theme="a" class="ui-corner-top">
+				<h1>Выбрать ТТ?</h1>
+			</div>
+			<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+				<h3 id="cfl_pophead" class="ui-title"></h3>
+				<center>
+ 					 <a href="#" id="savebtn_dialog_cfl" data-role="button"  data-inline="true" data-theme="b">Да</a>
+ 				     <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Нет</a>
+				</center>      
+			</div>
+	</div> 
+	
+</div>
 </body>
 </html>

@@ -1,21 +1,19 @@
-.menu_button{
-	border-radius: 10px;
-	background-color:#666666;
-	color:white;
-	margin:0.3%;
-	padding:3% 0%;
-	text-align:center;
-	text-decoration:none;
-	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.5); /* Äëÿ Firefox */
-    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5); /* Äëÿ Safari è Chrome */
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    margin: 1% 0;
-}
 
+.selected{}
+.amount{}
+.test{}
 .errorblock {
 	color: #ff0000;
 	background-color: #ffEEEE;
 	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+
+.msgblock {
+	color: black;
+	background-color: #ffffff;
+	border: 3px solid blue;
 	padding: 8px;
 	margin: 16px;
 }

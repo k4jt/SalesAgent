@@ -2,6 +2,7 @@ package ua.krem.agent.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class DocList implements Serializable{
 	
 	int[] docId;

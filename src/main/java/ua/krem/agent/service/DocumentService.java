@@ -22,8 +22,8 @@ public class DocumentService {
 		this.documentDAO = documentDAO;
 	}
 
-	public List<DocHead> selectDoc(DocHeadFilter filter){
-		return documentDAO.selectDoc(filter);
+	public List<DocHead> selectDoc(DocHeadFilter filter, String docDate){
+		return documentDAO.selectDoc(filter,0,docDate);
 	}
 	
 	public String exportDocuments(DocList docs, String uid, String path)
@@ -32,6 +32,10 @@ public class DocumentService {
 	}
 	public Document getDocumentById(Integer docId){
 		return documentDAO.getDocumentById(docId);
+	}
+
+	public List<DocHead> selectExpDoc(DocHeadFilter filter, String docGlobalDate) {
+		return documentDAO.selectDoc(filter,1,docGlobalDate);
 	}
 	
 }

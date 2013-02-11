@@ -13,6 +13,8 @@ public class Document implements Serializable{
 	
 	private Integer docType;
 	
+	private Integer docType1;
+
 	public String[] prodId;
 	
 	public String[] amount;
@@ -25,6 +27,14 @@ public class Document implements Serializable{
 		return amount;
 	}
 
+	public Integer getDocType1() {
+		return docType1;
+	}
+
+	public void setDocType1(Integer docType1) {
+		this.docType1 = docType1;
+	}
+	
 	public void setAmount(String[] amount) {
 		this.amount = amount;
 	}

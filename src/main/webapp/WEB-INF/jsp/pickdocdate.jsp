@@ -11,27 +11,21 @@
 <link href="${pageContext.request.contextPath}/css/jquery.mobile.min.css" rel="stylesheet" media="all" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Главное меню</title>
+<title>Выбор даты</title>
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.mobile.min.js"></script>
 <script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
 </head>
 <body>
-<div data-role="page" id="Cabinet_Page" data-url="/cabinet">
+<div data-role="page" id="pickDate_Page" data-url="/pickdocdate">
 
 	<div data-role="header">
-		<h1>Главное меню</h1>
+		<h1>Выбор даты документов</h1>
 	</div><!-- /header -->
-	<c:if test="${exp_result!=null}">
-	     <div id="exp_result" class="msgblock">
-    		<c:out value="${exp_result}"/>
-	 	</div>
-	</c:if>
-	<a href="tasks_with_tp" data-role="button" data-theme="b" data-inline="false">Работа с ТТ</a>
-	<a href="documents" data-role="button" data-theme="b" data-inline="false">Документы</a>
-	<a href="sync_type" data-role="button" data-theme="b" data-inline="false">Синхронизация</a>
-	<a href="reports" data-role="button" data-theme="b" data-inline="false">Отчеты</a>
-</div>
-
+<center>
+	<input name="docDate" id="docDate" readonly="readonly" class="i-txt" style="display:none"/>
+	<a href="cabinet" data-role="button" data-theme="b">OK</a>
+</center>
 	
+</div>
 </body>
 </html>

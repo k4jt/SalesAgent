@@ -6,12 +6,17 @@ import java.io.Serializable;
 public class Code implements Serializable{
 	
 	private String code;
+	private String Name;
+
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
 
 	public String getCode() {
-		if(code.indexOf(" ")!=-1){
-			code = code.substring(0, code.indexOf(" ")).trim();
-		}
-		System.out.println("code: " + code);
 		return code;
 	}
 

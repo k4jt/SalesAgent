@@ -7,66 +7,43 @@
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" media="all" />
-<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<link href="${pageContext.request.contextPath}/css/jquery.mobile.min.css" rel="stylesheet" media="all" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Выбор типа накладной</title>
-<script type="text/javascript" charset="utf-8">
-
-$( document ).ready( function() {
-    var $body = $('body'); //Cache this for performance
-
-    var setBodyScale = function() {
-        var scaleFactor = 0.55,
-            scaleSource = $(window).height(),
-            maxScale = 600,
-            minScale = 10;
-
-        var fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
-
-        if (fontSize > maxScale) fontSize = maxScale;
-        if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
-
-        $('body').css('font-size', fontSize + '%');
-    }
-
-    $(window).resize(function(){
-        setBodyScale();
-    });
-
-    //Fire it when the page first loads:
-    setBodyScale();
-});
-</script>
-
-<style>	
-
- </style>
-
-  
-  
-  
-  
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery-latest.js" ></script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/js/jquery.mobile.min.js" ></script>
 </head>
-
 <body>
- <c:if test="${shop != null}">
- 	<div>
- 		<c:out value="${shop.code}"/>&nbsp;
- 		<c:out value="${shop.name}"/>&nbsp;
- 		<c:out value="${shop.address}"/>&nbsp;
- 	</div>
- </c:if>
-
- 
- 		<a href="realization" style="text-decoration: none;"><div class="menu_button">Реализация</div></a>
- 		<a href="return_back" style="text-decoration: none;"><div class="menu_button">Возврат</div></a>
- 		<a href="cabinet" style="text-decoration: none;"><div class="menu_button">Завершить работу с ТТ</div></a>
-<c:if test="${save_result != null}">
-	<script>
-	$(function(){
-		alert('<c:out value="${save_result}"/>');
-	});
-	</script>
-</c:if>
+<div data-role="page" id="Choose_DocType_Page" data-url="/choose_doc_type">
+	  
+   	<c:choose>
+	    <c:when test="${shop != null}">
+	    	<div data-role="header"> 
+	    	<h1>
+		 		<c:out value="${shop.code}"/>&nbsp;
+ 				<c:out value="${shop.name}"/>&nbsp;
+ 				<c:out value="${shop.address}"/>&nbsp;
+		 	</h1>
+		 	</div>
+	    </c:when>
+	    <c:otherwise>
+	    	<div data-role="header">
+				<h1>Нужна авторизация!!</h1>
+			</div><!-- /header -->
+	    </c:otherwise>
+    </c:choose>
+    
+    <c:if test="${save_result != null}">
+    	<div id="save_res" class="msgblock">
+    		<c:out value="${save_result}"/>
+	 	</div>
+	 	
+    </c:if>
+    
+	<a href="designdoc" data-role="button" data-theme="b" data-inline="false">Реализация</a>
+	<a href="return_back" data-role="button" data-theme="b" data-inline="false">Возврат</a>
+	<a href="cabinet" data-role="button" data-theme="a" data-inline="false">Завершить работу с ТТ</a>
+</div>
 </body>
 </html>

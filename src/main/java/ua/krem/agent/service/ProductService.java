@@ -31,11 +31,11 @@ public class ProductService {
 		return productDAO.getBrands();
 	}
 	
-	public String addDocument(Document doc){
-		return productDAO.addDocument(doc);
+	public String addDocument(Document doc, String docDate, Integer docChange){
+		return productDAO.addDocument(doc, docDate, docChange);
 	}
 	
-	public String editDocument(Document doc){
-		return productDAO.editDocument(doc);
+	public String editDocument(Document doc, String docDate){
+		return productDAO.editDocument(doc, docDate);
 	}
 }

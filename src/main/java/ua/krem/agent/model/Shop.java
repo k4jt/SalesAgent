@@ -1,7 +1,6 @@
 package ua.krem.agent.model;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 
 @SuppressWarnings("serial")
 public class Shop implements Serializable{

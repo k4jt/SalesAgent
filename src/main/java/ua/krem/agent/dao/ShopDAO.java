@@ -59,7 +59,7 @@ public class ShopDAO {
 	public List<Shop> filterShop(ShopFilter filter){
 		List<Shop> shopList = new ArrayList<Shop>();
 		if(filter == null){
-			String sql = "SELECT shop_id id, name, address, code FROM shop ORDER BY id limit 50";
+			String sql = "SELECT shop_id id, name, address, code FROM shop ORDER BY id"; //limit
 			try{
 				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
 				for(Map<String, Object> map : mapList){
@@ -98,7 +98,7 @@ public class ShopDAO {
 				sql = new StringBuilder(sql.substring(0, sql.indexOf("WHERE")));
 			}
 			
-			sql.append("ORDER BY id limit 50");
+			sql.append("ORDER BY id");//limit
 			System.out.println(sql.toString());
 			try{
 				List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql.toString());
